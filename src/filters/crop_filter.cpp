@@ -10,16 +10,16 @@ void CropFilter::apply(std::vector<uint8_t>& image_data, int& width, int& height
   }
 
   std::vector<uint8_t> cropped_data(new_width_ * new_height_ * 3);
-  constexpr int start_x = 0;
-  constexpr int start_y = 0;
+
   // Обрезаем и переворачиваем
   for (int y = 0; y < new_height_; ++y) {
-    const int orig_y = height - 1 - (start_y + y);  // Отражаем по вертикали
+    // Отражаем по вертикали
+    const int orig_y = height - 1 - y;
     for (int x = 0; x < new_width_; ++x) {
+      // 3 канала (R, G, B)
       for (int c = 0; c < 3; ++c) {
-
         cropped_data[(y * new_width_ + x) * 3 + c] =
-            image_data[(orig_y * width + (start_x + x)) * 3 + c];
+            image_data[(orig_y * width + x) * 3 + c];
       }
     }
   }

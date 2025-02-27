@@ -1,6 +1,4 @@
-// BMPProcessor.cpp
 #include "../include/imports.h"
-
 
 BMPProcessor::BMPProcessor(const std::string& input_path, const std::string& output_path)
     : input_path_(input_path), output_path_(output_path) {
@@ -40,19 +38,15 @@ void BMPProcessor::save() {
   }
 
   unsigned char header[54] = {
-    'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0,
-    54, 0, 0, 0, 40, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 1, 0, 24, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0x13, 0x0B,
-    0, 0, 0x13, 0x0B, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0
-};
+      'B', 'M', 0,    0,    0, 0, 0,    0,    0, 0, 54, 0, 0, 0, 40, 0, 0, 0,
+      0,   0,   0,    0,    0, 0, 0,    0,    1, 0, 24, 0, 0, 0, 0,  0, 0, 0,
+      0,   0,   0x13, 0x0B, 0, 0, 0x13, 0x0B, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0};
 
-  int file_size = 54 + image_data_.size();
+  const int file_size = 54 + image_data_.size();
   std::memcpy(&header[2], &file_size, 4);
   std::memcpy(&header[18], &width_, 4);
   std::memcpy(&header[22], &height_, 4);
-  int raw_size = image_data_.size();
+  const int raw_size = image_data_.size();
   std::memcpy(&header[34], &raw_size, 4);
 
   file.write(reinterpret_cast<char*>(header), 54);
