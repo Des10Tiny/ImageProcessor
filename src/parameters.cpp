@@ -1,5 +1,4 @@
-#include "../include/parameters.h"
-#include <stdexcept>
+#include "../include/imports.h"
 
 Parameters::Parameters(const std::string &path_to_input_file,
            const std::string &path_to_output_file,
