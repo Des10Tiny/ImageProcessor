@@ -1,7 +1,3 @@
-//
-// Created by Глеб Макаревич on 27.02.2025.
-//
-
 #ifndef BMP_PROCESSOR_H
 #define BMP_PROCESSOR_H
 

@@ -1,7 +1,3 @@
-//
-// Created by Глеб Макаревич on 27.02.2025.
-//
-
 #ifndef FILTER_FACTORY_H
 #define FILTER_FACTORY_H
 

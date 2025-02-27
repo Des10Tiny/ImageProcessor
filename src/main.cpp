@@ -48,8 +48,8 @@ Parameters GenerateParameters(const int argc, char** argv) {
     exit(0);
   }
 
-  std::string path_to_input_file = argv[1];
-  std::string path_to_output_file = argv[2];
+  const std::string path_to_input_file = argv[1];
+  const std::string path_to_output_file = argv[2];
   std::vector<Filter> filters;
 
   std::string name_of_filter;
@@ -85,7 +85,7 @@ Parameters GenerateParameters(const int argc, char** argv) {
 
 int main(const int argc, char** argv) {
   try {
-    Parameters param = GenerateParameters(argc, argv);
+    const Parameters param = GenerateParameters(argc, argv);
 
     BMPProcessor processor(param.get_path_to_input_file(), param.get_path_to_output_file());
 
@@ -93,6 +93,7 @@ int main(const int argc, char** argv) {
       processor.add_filter(create_filter(filter));
     }
 
+    // Применяем все фильтры по очереди
     processor.apply_filters();
     processor.save();
 
