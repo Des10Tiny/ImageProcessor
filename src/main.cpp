@@ -1,5 +1,4 @@
-#include <iostream>
-#include "../include/parameters.h"
+#include "../include/imports.h"
 
 // Вывод справки
 void PrintHelp() {
@@ -54,7 +53,7 @@ Parameters GenerateParameters(const int argc, char** argv) {
   std::vector<Filter> filters;
 
   std::string name_of_filter;
-  int amount_of_filter_parameters;
+  int amount_of_filter_parameters = 0;
   std::vector<std::string> parameters;
   int parameter_index = 3;
 
@@ -85,5 +84,23 @@ Parameters GenerateParameters(const int argc, char** argv) {
 }
 
 int main(const int argc, char** argv) {
-  Parameters param = GenerateParameters(argc, argv);
+  try {
+    Parameters param = GenerateParameters(argc, argv);
+
+    BMPProcessor processor(param.get_path_to_input_file(), param.get_path_to_output_file());
+
+    for (const auto& filter : param.get_filters()) {
+      processor.add_filter(create_filter(filter));
+    }
+
+    processor.apply_filters();
+    processor.save();
+
+    std::cout << "Image processing completed successfully!" << std::endl;
+
+  } catch (const std::exception& e) {
+    std::cerr << "Error: " << e.what() << std::endl;
+    return 1;
+  }
+
 }
