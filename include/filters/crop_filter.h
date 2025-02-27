@@ -13,7 +13,8 @@ class CropFilter : public FilterBase {
 public:
   CropFilter(int new_width, int new_height);
 
-  void apply(std::vector<uint8_t>& image_data, int width, int height) const override;
+  void apply(std::vector<uint8_t> &image_data, int &width,
+             int &height) const override;
   std::string get_name() const override;
 };
 #endif //CROP_FILTER_H
