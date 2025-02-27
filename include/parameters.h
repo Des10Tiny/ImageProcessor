@@ -12,21 +12,21 @@
 
 struct Filter {
   std::string name_of_filter;
-  int amount_of_filters;
+  int amount_of_filter_parameters;
   std::vector<std::string> parameters;
 };
 
-class Path {
+class Parameters {
   std::string path_to_input_file;
   std::string path_to_output_file;
   std::vector<Filter> filters;
 
 public:
-  Path(const std::string &path_to_input_file,
+  Parameters(const std::string &path_to_input_file,
        const std::string &path_to_output_file,
        const std::vector<Filter> &filters);
 
-  ~Path() = default;
+  ~Parameters() = default;
 
   [[nodiscard]] std::string get_path_to_input_file() const;
   [[nodiscard]] std::string get_path_to_output_file() const;

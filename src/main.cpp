@@ -43,18 +43,47 @@ void PrintHelp() {
 
 }
 
-void GenerateParameters(const int argc, char** argv) {
+Parameters GenerateParameters(const int argc, char** argv) {
   if (argc <= 1) {
     PrintHelp();
-  } else{
-    std::string path_to_input_file = argv[1];
-    std::string path_to_output_file = argv[2];
-
+    exit(0);
   }
 
+  std::string path_to_input_file = argv[1];
+  std::string path_to_output_file = argv[2];
+  std::vector<Filter> filters;
+
+  std::string name_of_filter;
+  int amount_of_filter_parameters;
+  std::vector<std::string> parameters;
+  int parameter_index = 3;
+
+  while (parameter_index < argc) {
+      if (argv[parameter_index][0] == '-') {
+        name_of_filter = argv[parameter_index];
+        for (int i = parameter_index + 1; i < argc; ++i) {
+          if (parameter_index == argc || parameter_index + 1 >= argc ) {break;}
+          if (argv[i][0] == '-') {break;}
+          ++amount_of_filter_parameters;
+          parameters.push_back(argv[i]);
+        }
+      }
+    if (!parameters.empty()) {
+      filters.push_back(Filter(name_of_filter, amount_of_filter_parameters, parameters));
+    } else {
+      if (name_of_filter != "") {
+        filters.push_back(Filter(name_of_filter, amount_of_filter_parameters));
+      }
+    }
+    name_of_filter = "";
+    amount_of_filter_parameters = 0;
+    parameters.clear();
+    ++parameter_index;
+  }
+  return Parameters(path_to_input_file, path_to_output_file, filters);
 
 }
 
 int main(const int argc, char** argv) {
-  GenerateParameters(argc, argv);
+  Parameters param = GenerateParameters(argc, argv);
 }
