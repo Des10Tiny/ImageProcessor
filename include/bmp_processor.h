@@ -16,7 +16,8 @@ class BMPProcessor {
   int height_;
 
 public:
-  BMPProcessor(const std::string& input_path, const std::string& output_path);
+  BMPProcessor(const std::string &input_path, const std::string &output_path);
+  ~BMPProcessor() = default;
 
   void add_filter(std::unique_ptr<FilterBase> filter);
   void apply_filters();
