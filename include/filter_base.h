@@ -11,7 +11,8 @@ public:
   virtual ~FilterBase() = default;
 
   // Метод для применения фильтра
-  virtual void apply(std::vector<uint8_t>& image_data, int width, int height) const = 0;
+  virtual void apply(std::vector<uint8_t> &image_data, int &width,
+                     int &height) const = 0;
 
   // Метод для получения имени фильтра
   virtual std::string get_name() const = 0;

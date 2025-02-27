@@ -14,6 +14,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <memory>
+#include <cstring>
 
 // Locale includes
 #include "parameters.h"
