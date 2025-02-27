@@ -3,4 +3,4 @@ project(ImageProcessor)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(ImageProcessor main.cpp)
+add_executable(ImageProcessor core/main.cpp)
