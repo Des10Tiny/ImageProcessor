@@ -1,7 +1,3 @@
-//
-// Created by Глеб Макаревич on 27.02.2025.
-//
-
 #ifndef CROP_FILTER_H
 #define CROP_FILTER_H
 #include "../imports.h"

@@ -1,7 +1,3 @@
-//
-// Created by Глеб Макаревич on 27.02.2025.
-//
-
 #ifndef PATH_H
 #define PATH_H
 

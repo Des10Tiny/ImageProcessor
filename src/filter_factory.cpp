@@ -1,9 +1,5 @@
-//
-// Created by Глеб Макаревич on 27.02.2025.
-//
-
 #include "../include/imports.h"
-// Добавляйте другие фильтры по мере реализации
+// Добавляем другие фильтры по мере реализации
 
 std::unique_ptr<FilterBase> create_filter(const Filter& filter) {
   if (filter.name_of_filter == "-crop") {
@@ -14,6 +10,11 @@ std::unique_ptr<FilterBase> create_filter(const Filter& filter) {
     int height = std::stoi(filter.parameters[1]);
     return std::make_unique<CropFilter>(width, height);
   }
+  if (filter.name_of_filter == "-gs") {
+    // In progress
+    throw std::runtime_error("GS Filter is not supported");
+  }
+
   // Добавить другие фильтры здесь
   throw std::runtime_error("Unknown filter: " + filter.name_of_filter);
 }

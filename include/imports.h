@@ -1,7 +1,3 @@
-//
-// Created by Глеб Макаревич on 27.02.2025.
-//
-
 #ifndef IMPORTS_H
 #define IMPORTS_H
 

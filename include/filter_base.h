@@ -1,7 +1,3 @@
-//
-// Created by Глеб Макаревич on 27.02.2025.
-//
-
 #ifndef FILTER_BASE_H
 #define FILTER_BASE_H
 #include "imports.h"
