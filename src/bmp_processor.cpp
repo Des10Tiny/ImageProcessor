@@ -23,8 +23,6 @@ void BMPProcessor::load() {
 
   char header[54];
   file.read(header, 54);
-
-  // Проверка сигнатуры BMP
   if (header[0] != 'B' || header[1] != 'M') {
     throw std::runtime_error("Input file is not a valid BMP file (invalid signature)");
   }
@@ -32,59 +30,62 @@ void BMPProcessor::load() {
   width_ = *reinterpret_cast<int *>(&header[18]);
   height_ = *reinterpret_cast<int *>(&header[22]);
 
-  // Проверка размеров изображения
   if (width_ <= 0 || height_ <= 0) {
     throw std::runtime_error("Invalid BMP file: width or height is non-positive");
   }
 
-  // 3 байта на пиксель (RGB)
-  const int expected_size = width_ * height_ * 3;
+  // Вычисляем размер строки в файле с учётом выравнивания
+  // (каждая строка выровнена до кратного 4 байт)
+  const int file_row_size = ((width_ * 3 + 3) / 4) * 4;
+  // В памяти храним только полезные пиксели:
+  // width_ * 3 байт на строку, BMP хранит данные снизу вверх
   image_data_.resize(width_ * height_ * 3);
-  file.read(reinterpret_cast<char*>(image_data_.data()), image_data_.size());
+  std::vector<uint8_t> row_data(file_row_size);
 
-  // Проверка, что файл содержит достаточно данных
-  if (file.gcount() != expected_size) {
-    throw std::runtime_error("Invalid BMP file: file size does not match expected image size");
+  // Читаем построчно. Первая строка в файле – нижняя строка изображения.
+  for (int row = 0; row < height_; ++row) {
+    file.read(reinterpret_cast<char*>(row_data.data()), file_row_size);
+    if (!file) {
+      throw std::runtime_error("Error reading BMP file row");
+    }
+    // Копируем только полезные данные (без padding)
+    std::copy_n(row_data.begin(), (width_ * 3),
+              image_data_.begin() + row * width_ * 3);
   }
 }
 
-void BMPProcessor::save() {
+void BMPProcessor::save() const {
   std::ofstream file(output_path_, std::ios::binary);
   if (!file) {
     throw std::runtime_error("Failed to open output file");
   }
 
-  const int row_size = ((width_ * 3 + 3) / 4) * 4; // Выравнивание строк
-  const int file_size = 54 + row_size * height_; // Размер файла с учётом выравнивания
+  // При сохранении необходимо добавить padding к каждой строке
+  const int row_size = ((width_ * 3 + 3) / 4) * 4;
+  const int file_size = 54 + row_size * height_;
 
-  // Заголовок BMP
   unsigned char header[54] = {
     'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0,
     40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 24, 0
   };
 
   // Заполняем заголовок
-  std::memcpy(&header[2], &file_size, 4); // Размер файла
-  std::memcpy(&header[18], &width_, 4);   // Ширина
-  std::memcpy(&header[22], &height_, 4);  // Высота
+  std::memcpy(&header[2], &file_size, 4);
+  std::memcpy(&header[18], &width_, 4);
+  std::memcpy(&header[22], &height_, 4);
   const int raw_size = row_size * height_;
-  std::memcpy(&header[34], &raw_size, 4); // Размер данных изображения
+  std::memcpy(&header[34], &raw_size, 4);
 
-  // Записываем заголовок
   file.write(reinterpret_cast<char*>(header), 54);
 
-  // Записываем строки с учётом выравнивания
-  const int padding = row_size - (width_ * 3);
+  // Подготавливаем буфер для строки с выравниванием
   std::vector<uint8_t> row_buffer(row_size, 0);
 
-  for (int y = 0; y < height_; ++y) {
-    // Копируем данные строки
-    const int data_index = y * width_ * 3;
+  // Записываем строки в том же порядке, что и в памяти (BMP ожидает данные снизу вверх)
+  for (int row = 0; row < height_; ++row) {
+    const int data_index = row * width_ * 3;
     std::memcpy(row_buffer.data(), &image_data_[data_index], width_ * 3);
-
-    // Записываем строку с padding
     file.write(reinterpret_cast<char*>(row_buffer.data()), row_size);
   }
-
   file.close();
 }

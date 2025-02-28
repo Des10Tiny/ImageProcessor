@@ -16,4 +16,6 @@ add_executable(ImageProcessor src/main.cpp
         src/filter_factory.cpp
         src/validation_data.cpp
         include/validation_data.h
+        src/generate_start_setup.cpp
+        include/generate_start_setup.h
 )

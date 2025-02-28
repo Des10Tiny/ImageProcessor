@@ -12,6 +12,7 @@
 #include <memory>
 #include <cstring>
 #include <unordered_map>
+#include <cstdint>
 
 // Locale includes
 #include "parameters.h"
@@ -20,4 +21,6 @@
 #include "bmp_processor.h"
 #include "filter_factory.h"
 #include "validation_data.h"
+#include "generate_start_setup.h"
+
 #endif //IMPORTS_H
