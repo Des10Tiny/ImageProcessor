@@ -3,12 +3,9 @@
 
 std::unique_ptr<FilterBase> create_filter(const Filter& filter) {
   if (filter.name_of_filter == "-crop") {
-    if (filter.parameters.size() != 2) {
-      throw std::runtime_error("Crop filter requires exactly 2 parameters");
-    }
-    int width = std::stoi(filter.parameters[0]);
-    int height = std::stoi(filter.parameters[1]);
-    return std::make_unique<CropFilter>(width, height);
+    return std::make_unique<CropFilter>(
+      static_cast<int>(std::stoi(filter.parameters[0])),
+      static_cast<int>(std::stoi(filter.parameters[1])));
   }
   if (filter.name_of_filter == "-gs") {
     // In progress
