@@ -10,20 +10,21 @@ struct Filter {
 };
 
 class Parameters {
-  std::string path_to_input_file;
-  std::string path_to_output_file;
-  std::vector<Filter> filters;
+  const std::string path_to_input_file;
+  const std::string path_to_output_file;
+  const std::vector<Filter> filters;
 
 public:
-  Parameters(const std::string &path_to_input_file,
-       const std::string &path_to_output_file,
-       const std::vector<Filter> &filters);
+  Parameters(const std::string& path_to_input_file,
+       const std::string& path_to_output_file,
+       const std::vector<Filter>& filters);
 
   ~Parameters() = default;
 
   [[nodiscard]] std::string get_path_to_input_file() const;
   [[nodiscard]] std::string get_path_to_output_file() const;
   [[nodiscard]] std::vector<Filter> get_filters() const;
+
 };
 
 #endif // PATH_H

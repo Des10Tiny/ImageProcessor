@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <memory>
 #include <cstring>
+#include <unordered_map>
 
 // Locale includes
 #include "parameters.h"
@@ -18,4 +19,5 @@
 #include "filters/crop_filter.h"
 #include "bmp_processor.h"
 #include "filter_factory.h"
+#include "validation_data.h"
 #endif //IMPORTS_H

@@ -4,3 +4,4 @@ main.dSYM/
 main
 *.o
 .DS_store
+*.bmp
