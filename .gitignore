@@ -5,4 +5,4 @@ main
 *.o
 .DS_store
 *.bmp
-bin/
+
