@@ -14,4 +14,6 @@ add_executable(ImageProcessor src/main.cpp
         src/bmp_processor.cpp
         include/filter_factory.h
         src/filter_factory.cpp
+        src/validation_data.cpp
+        include/validation_data.h
 )

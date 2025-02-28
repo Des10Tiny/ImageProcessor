@@ -47,6 +47,9 @@ Parameters GenerateParameters(const int argc, char** argv) {
     PrintHelp();
     exit(0);
   }
+  if (argc <= 2) {
+    throw std::runtime_error("Invalid number of arguments");
+  }
 
   const std::string path_to_input_file = argv[1];
   const std::string path_to_output_file = argv[2];
@@ -84,8 +87,15 @@ Parameters GenerateParameters(const int argc, char** argv) {
 }
 
 int main(const int argc, char** argv) {
+  std::unordered_map<std::string, int> filters = {
+    {"-crop", 2},
+    {"-gs", 0},
+    {"-neg", 0},
+  };
+
   try {
     const Parameters param = GenerateParameters(argc, argv);
+    ValidationInputData(param, filters);
 
     BMPProcessor processor(param.get_path_to_input_file(), param.get_path_to_output_file());
 
@@ -99,8 +109,9 @@ int main(const int argc, char** argv) {
 
     std::cout << "Image processing completed successfully!" << std::endl;
 
-  } catch (const std::exception& e) {
+  } catch (const std::exception& e)  {
     std::cerr << "Error: " << e.what() << std::endl;
+    std::cerr << "Сработал catch" <<std::endl;
     return 1;
   }
 
