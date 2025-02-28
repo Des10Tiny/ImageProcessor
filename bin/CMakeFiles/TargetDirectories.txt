@@ -1,3 +1,0 @@
-/Users/glebmakarevich/ImageProcessor/bin/CMakeFiles/ImageProcessor.dir
-/Users/glebmakarevich/ImageProcessor/bin/CMakeFiles/edit_cache.dir
-/Users/glebmakarevich/ImageProcessor/bin/CMakeFiles/rebuild_cache.dir
