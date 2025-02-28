@@ -3,19 +3,21 @@ project(ImageProcessor)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(ImageProcessor src/main.cpp
-        src/parameters.cpp
+add_executable(ImageProcessor
         include/parameters.h
         include/imports.h
         include/filters/crop_filter.h
         include/filter_base.h
-        src/filters/crop_filter.cpp
-        include/bmp_processor.h
-        src/bmp_processor.cpp
         include/filter_factory.h
+        include/bmp_processor.h
+        include/validation_data.h
+        include/generate_start_setup.h
+        src/main.cpp
+        src/parameters.cpp
+        src/filters/crop_filter.cpp
+        src/bmp_processor.cpp
         src/filter_factory.cpp
         src/validation_data.cpp
-        include/validation_data.h
         src/generate_start_setup.cpp
-        include/generate_start_setup.h
+
 )
