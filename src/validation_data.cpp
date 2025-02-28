@@ -1,19 +1,20 @@
 #include "../include/imports.h"
 
-void ValidationFiltersFailedMessage(const Parameters& parameters) {
-  std::string error_message = "\nPath to input file: " + parameters.get_path_to_input_file() + "\n"
-      + "Path to output file: " + parameters.get_path_to_output_file() + "\n";
-
-  std::string filter_parameters;
-  for (auto& i : parameters.get_filters()) {
-    for (auto& j : i.parameters) {
-      filter_parameters += j + " ";
-    }
-    error_message += "Filter name: " + i.name_of_filter + "," + " parameters: [ " + filter_parameters + "]\n"; ;
-    filter_parameters = "";
-  }
-  throw std::runtime_error("Verification failed, enter the data in the correct format or call help." + error_message);
-}
+// Возможно поможет в будущем
+// void ValidationFiltersFailedMessage(const Parameters& parameters) {
+//   std::string error_message = "\nPath to input file: " + parameters.get_path_to_input_file() + "\n"
+//       + "Path to output file: " + parameters.get_path_to_output_file() + "\n";
+//
+//   std::string filter_parameters;
+//   for (auto& i : parameters.get_filters()) {
+//     for (auto& j : i.parameters) {
+//       filter_parameters += j + " ";
+//     }
+//     error_message += "Filter name: " + i.name_of_filter + "," + " parameters: [ " + filter_parameters + "]\n"; ;
+//     filter_parameters = "";
+//   }
+//   throw std::runtime_error("Verification failed, enter the data in the correct format or call help." + error_message);
+// }
 
 void ValidateInOutPaths(const Parameters& parameters) {
   // Проверка расширения входного файла
@@ -49,6 +50,10 @@ void ValidationAllParametersInFilter(const Parameters& parameters, const std::un
 }
 
 void ValidationAllSupportedFilters(const Parameters& parameters, const std::unordered_map<std::string, int>& isFilter) {
+  if (parameters.get_filters().size() <= 0) {
+    throw std::runtime_error("No filters were provided.");
+  }
+
   for (auto& param : parameters.get_filters()) {
     auto it = isFilter.find(param.name_of_filter);
     if (it == isFilter.end()) {
@@ -64,6 +69,7 @@ void ValidationAllSupportedFilters(const Parameters& parameters, const std::unor
   }
 }
 
+// Валидация пути входного файла, расширения, названия фильтров переданных в isFilter
 void ValidationInputData(const Parameters& parameters, const std::unordered_map<std::string, int>& isFilter) {
     ValidateInOutPaths(parameters);
     ValidationAllSupportedFilters(parameters, isFilter);

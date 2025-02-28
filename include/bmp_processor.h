@@ -17,7 +17,7 @@ public:
 
   void add_filter(std::unique_ptr<FilterBase> filter);
   void apply_filters();
-  void save();
+  void save() const;
 
 private:
   void load();

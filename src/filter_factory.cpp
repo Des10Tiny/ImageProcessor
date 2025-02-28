@@ -13,5 +13,6 @@ std::unique_ptr<FilterBase> create_filter(const Filter& filter) {
   }
 
   // Добавить другие фильтры здесь
-  throw std::runtime_error("Unknown filter: " + filter.name_of_filter);
+  throw std::runtime_error("It's never going to happen. Unknown filter: "
+    + filter.name_of_filter);
 }
