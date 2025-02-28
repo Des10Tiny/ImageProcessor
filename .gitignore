@@ -5,4 +5,5 @@ main
 *.o
 .DS_store
 *.bmp
-
+build/*
+!build/.gitkeep
