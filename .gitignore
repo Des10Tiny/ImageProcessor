@@ -9,3 +9,6 @@ build/*
 !build/.gitkeep
 /tests/build
 /tests/Testing
+
+!tests/images/lenna.bmp
+!tests/images/flag.bmp
