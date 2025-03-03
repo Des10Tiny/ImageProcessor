@@ -7,7 +7,12 @@ struct Filter {
   std::string name_of_filter;
   int amount_of_filter_parameters;
   std::vector<std::string> parameters;
+
+  // Конструктор
+  Filter(const std::string& name, const int amount, const std::vector<std::string>& params = {})
+      : name_of_filter(name), amount_of_filter_parameters(amount), parameters(params) {}
 };
+
 
 class Parameters {
   const std::string path_to_input_file;
