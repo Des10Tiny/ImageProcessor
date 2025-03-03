@@ -1,0 +1,47 @@
+cmake_minimum_required(VERSION 3.14)
+project(ImageProcessorTests)
+
+
+# Подключение Google Test через FetchContent
+include(CTest)
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/refs/heads/main.zip
+)
+FetchContent_MakeAvailable(googletest)
+
+# Подключение основного проекта
+add_subdirectory(.. ${CMAKE_BINARY_DIR}/ImageProcessor)
+
+# Создание тестового исполняемого файла
+add_executable(ImageProcessorTests
+        test_main.cpp
+        test_bmp_processor.cpp
+        ../include/parameters.h
+        ../include/imports.h
+        ../include/filters/crop_filter.h
+        ../include/filter_base.h
+        ../include/filter_factory.h
+        ../include/bmp_processor.h
+        ../include/validation_data.h
+        ../include/generate_start_setup.h
+        ../src/parameters.cpp
+        ../src/filters/crop_filter.cpp
+        ../src/bmp_processor.cpp
+        ../src/filter_factory.cpp
+        ../src/validation_data.cpp
+        ../src/generate_start_setup.cpp
+)
+
+
+
+# Определение флага для тестов
+target_compile_definitions(ImageProcessorTests PRIVATE UNIT_TEST)
+
+# Подключение Google Test
+target_link_libraries(ImageProcessorTests gtest_main gtest)
+
+# Добавление тестов в CTest
+include(GoogleTest)
+gtest_discover_tests(ImageProcessorTests)

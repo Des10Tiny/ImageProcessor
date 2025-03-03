@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
+
+      - name: Configure CMake
+        run: |
+          mkdir -p tests/build
+          cd tests/build
+          cmake ..
+
+      - name: Build everything (Main + Tests)
+        run: |
+          cd tests/build
+          cmake --build .
+
+      - name: Run tests
+        run: |
+          cd tests/build
+          ctest --output-on-failure
+
+      - name: Verify tests passed
+        run: |
+          cd tests/build
+          ctest --output-on-failure || exit 1
+
+      - name: Clean up
+        run: |
+          rm -rf tests/build/ output.bmp

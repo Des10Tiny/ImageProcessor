@@ -48,7 +48,7 @@ Parameters GenerateParameters(const int argc, char** argv) {
     PrintHelp();
     exit(0);
   }
-  if (argc <= 2) {
+  if (argc <= 3 || argv[3][0] != '-') {
     throw std::runtime_error("Invalid number of arguments");
   }
 
