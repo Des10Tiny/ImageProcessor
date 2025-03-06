@@ -4,7 +4,7 @@
 #include "../include/bmp_processor.h"
 #include "../include/filter_factory.h"
 #include <iostream>
-#include <set>
+#include <set> // NOLINT
 
 int NUMBER_OF_THREADS = 6;
 

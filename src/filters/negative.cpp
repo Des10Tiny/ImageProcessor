@@ -1,5 +1,5 @@
 #include "../../include/filters/negative.h"
-#include <utility>
+#include <utility> // NOLINT
 #include <algorithm>
 #include <thread>
 
@@ -54,6 +54,6 @@ void NegativeFilter::RunThreads(std::vector<uint8_t>& image_data, std::vector<ui
   }
 }
 
-std::string NegativeFilter::get_name() const {
+[[nodiscard]] std::string NegativeFilter::get_name() const {
   return "Negative";
 }

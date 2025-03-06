@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <string>
 
-class CropFilter : public FilterBase {
+class CropFilter final : public FilterBase {
   int new_width_;
   int new_height_;
 
@@ -20,7 +20,7 @@ public:
 
   void apply(std::vector<uint8_t> &image_data, int &width,
              int &height, int num_threads) const override;
-  std::string get_name() const override;
+  [[nodiscard]] std::string get_name() const override;
 };
 
 #endif //CROP_FILTER_H

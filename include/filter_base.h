@@ -19,7 +19,7 @@ public:
                      int &height, int num_threads) const = 0;
 
   // Метод для получения имени фильтра
-  virtual std::string get_name() const = 0;
+  [[nodiscard]] virtual std::string get_name() const = 0;
 
   void process_range(const std::vector<uint8_t>& image_data,
                    std::vector<uint8_t>& result_data, const int width, const int height,

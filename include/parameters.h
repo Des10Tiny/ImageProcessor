@@ -2,6 +2,7 @@
 #define PATH_H
 
 #include <string>
+#include <utility> //NOLINT
 #include <vector>
 
 struct Filter {
@@ -10,8 +11,8 @@ struct Filter {
   std::vector<std::string> parameters;
 
   // Конструктор
-  Filter(const std::string& name, const int amount, const std::vector<std::string>& params = {})
-      : name_of_filter(name), amount_of_filter_parameters(amount), parameters(params) {}
+  Filter(std::string  name, const int amount, const std::vector<std::string>& params = {})
+      : name_of_filter(std::move(name)), amount_of_filter_parameters(amount), parameters(params) {}
 };
 
 
@@ -21,8 +22,8 @@ class Parameters {
   const std::vector<Filter> filters;
 
 public:
-  Parameters(const std::string& path_to_input_file,
-       const std::string& path_to_output_file,
+  Parameters(std::string  path_to_input_file,
+       std::string  path_to_output_file,
        const std::vector<Filter>& filters);
 
   ~Parameters() = default;
