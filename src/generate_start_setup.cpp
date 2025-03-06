@@ -78,14 +78,14 @@ Parameters GenerateParameters(const int argc, char** argv) {
           if (parameter_index == argc || parameter_index + 1 >= argc ) {break;}
           if (argv[i][0] == '-') {break;}
           ++amount_of_filter_parameters;
-          parameters.push_back(argv[i]);
+          parameters.emplace_back(argv[i]);
         }
       }
     if (!parameters.empty()) {
-      filters.push_back(Filter(name_of_filter, amount_of_filter_parameters, parameters));
+      filters.emplace_back(name_of_filter, amount_of_filter_parameters, parameters);
     } else {
       if (!name_of_filter.empty()) {
-        filters.push_back(Filter(name_of_filter, amount_of_filter_parameters));
+        filters.emplace_back(name_of_filter, amount_of_filter_parameters);
       }
     }
     name_of_filter = "";
@@ -93,6 +93,6 @@ Parameters GenerateParameters(const int argc, char** argv) {
     parameters.clear();
     ++parameter_index;
   }
-  return Parameters(path_to_input_file, path_to_output_file, filters);
+  return {path_to_input_file, path_to_output_file, filters};
 
 }

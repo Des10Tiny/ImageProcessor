@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <string>
+#include <utility> //NOLINT
 
 /**
  * @brief Класс ValidationException
@@ -17,15 +18,15 @@ public:
    *
    * @param message Сообщение об ошибке.
    */
-  explicit ValidationException(const std::string& message)
-      : message_(message) {}
+  explicit ValidationException(std::string  message)
+      : message_(std::move(message)) {}
 
   /**
    * @brief Возвращает описание ошибки.
    *
    * @return const char* Сообщение об ошибке.
    */
-  virtual const char* what() const noexcept override {
+  [[nodiscard]] const char* what() const noexcept override {
     return message_.c_str();
   }
 

@@ -1,9 +1,7 @@
 #include "../../include/filters/grayscale.h"
-#include <algorithm>
 #include <iostream>
-#include <mutex>
 #include <thread>
-#include <utility>
+#include <utility> // NOLINT
 
 GrayscaleFilter::GrayscaleFilter() = default;
 
@@ -25,7 +23,7 @@ void GrayscaleFilter::ProcessPartition(const std::vector<uint8_t>& image_data, s
       const uint8_t g = image_data[index + 1];
       const uint8_t b = image_data[index + 2];
 
-      const uint8_t gray = static_cast<uint8_t>(0.229 * r + 0.587 * g + 0.114 * b);
+      const auto gray = static_cast<uint8_t>(0.229 * r + 0.587 * g + 0.114 * b);
 
       grayscale_data[index] = grayscale_data[index + 1] = grayscale_data[index + 2] = gray;
     }
@@ -57,6 +55,6 @@ void GrayscaleFilter::RunThreads(std::vector<uint8_t>& image_data, std::vector<u
 }
 
 
-std::string GrayscaleFilter::get_name() const {
+[[nodiscard]] std::string GrayscaleFilter::get_name() const {
   return "Grayscale";
 }

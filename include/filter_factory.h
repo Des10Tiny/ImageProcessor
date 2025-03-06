@@ -3,7 +3,7 @@
 
 #include "filter_base.h"
 #include <set>
-#include <memory>
+#include <memory> //NOLINT
 
 std::unique_ptr<FilterBase> create_filter(const Filter& filter);
 
