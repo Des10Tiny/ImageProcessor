@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <thread>
+#include <filesystem>
 
 int test_main(const std::vector<std::string>& args); // Объявление, но без реализации
 
