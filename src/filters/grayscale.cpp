@@ -1,4 +1,5 @@
 #include "../../include/filters/grayscale.h"
+#include <utility>
 
 GrayscaleFilter::GrayscaleFilter() = default;
 

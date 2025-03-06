@@ -1,8 +1,10 @@
-
 #ifndef GRAYSCALE_H
 #define GRAYSCALE_H
-#include <string>
+
 #include "../filter_base.h"
+#include <string>
+#include <cstdint>
+#include <vector>
 
 class GrayscaleFilter : public FilterBase {
 

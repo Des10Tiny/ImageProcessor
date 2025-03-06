@@ -1,7 +1,8 @@
 #include "../include/parameters.h"
+#include "../include/validation_data.h"
 #include <set>
 #include <filesystem>
-
+#include <stdexcept>
 // Возможно поможет в будущем
 // void ValidationFiltersFailedMessage(const Parameters& parameters) {
 //   std::string error_message = "\nPath to input file: " + parameters.get_path_to_input_file() + "\n"
