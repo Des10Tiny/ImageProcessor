@@ -3,6 +3,7 @@
 
 #include "filter_base.h"
 #include <vector>
+#include <memory>
 
 class BMPProcessor {
   std::string input_path_;

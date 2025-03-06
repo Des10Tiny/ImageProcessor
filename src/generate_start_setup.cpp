@@ -1,6 +1,10 @@
-#include <stdexcept>
 #include "../include/parameters.h"
+#include "../include/generate_start_setup.h"
+#include <stdexcept>
 #include <iostream>
+#include <vector>
+#include <string>
+
 
 // Вывод справки
 void PrintHelp() {

@@ -1,4 +1,5 @@
 #include "../../include/filters/negative.h"
+#include <utility>
 
 NegativeFilter::NegativeFilter() = default;
 

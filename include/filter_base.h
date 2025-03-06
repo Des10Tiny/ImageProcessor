@@ -2,6 +2,8 @@
 #define FILTER_BASE_H
 
 #include <vector>
+#include <cstdint>
+#include <string>
 
 class FilterBase {
 public:
