@@ -23,18 +23,16 @@ void ValidateInOutPaths(const Parameters& parameters) {
   // Проверка расширения входного файла
   if (std::filesystem::path(parameters.get_path_to_input_file()).extension() != ".bmp") {
     const auto extension = static_cast<std::string>(std::filesystem::path(parameters.get_path_to_input_file()).extension());
-    const auto error = static_cast<std::string>(
-      "Input file must have extension .bmp not <" + extension + ">"
-      );
+    const auto error =
+      "Input file must have extension .bmp not <" + extension + ">";
     throw std::runtime_error(error);
   }
 
   // Проверка расширения выходного файла
   if (std::filesystem::path(parameters.get_path_to_output_file()).extension() != ".bmp") {
     const auto extension = static_cast<std::string>(std::filesystem::path(parameters.get_path_to_output_file()).extension());
-    const auto error = static_cast<std::string>(
-      "Output file must have extension .bmp not <" + extension + ">"
-      );
+    const auto error =
+      "Output file must have extension .bmp not <" + extension + ">";
     throw std::runtime_error(error);
   }
 

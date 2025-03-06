@@ -32,7 +32,7 @@ int test_main(const std::vector<std::string>& args) {
   }
 
   // Создаем BMPProcessor для обработки изображения
-  BMPProcessor processor(args[1], args[2]);
+  BMPProcessor processor(args[1], args[2], 6);
 
   // Применяем фильтры
   for (size_t i = 3; i < args.size(); ++i) {
