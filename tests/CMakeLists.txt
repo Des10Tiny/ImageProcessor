@@ -27,6 +27,7 @@ add_executable(ImageProcessorTests
         ../include/generate_start_setup.h
         ../include/filters/grayscale.h
         ../include/filters/negative.h
+        ../include/validation_exception.h
         ../src/parameters.cpp
         ../src/filters/crop.cpp
         ../src/bmp_processor.cpp
