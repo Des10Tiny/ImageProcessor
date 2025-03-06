@@ -44,4 +44,4 @@ jobs:
 
       - name: Clean up
         run: |
-          rm -rf tests/build/ output.bmp
+          rm -rf tests/build/ output.bmp output_gs.bmp output_neg.bmp output_neg_gs.bmp

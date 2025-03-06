@@ -1,4 +1,5 @@
-#include "../include/imports.h"
+#include "../include/bmp_processor.h"
+#include <fstream>
 
 BMPProcessor::BMPProcessor(const std::string& input_path, const std::string& output_path)
     : input_path_(input_path), output_path_(output_path) {
