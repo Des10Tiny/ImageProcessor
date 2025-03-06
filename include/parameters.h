@@ -1,7 +1,8 @@
 #ifndef PATH_H
 #define PATH_H
 
-#include "imports.h"
+#include <string>
+#include <vector>
 
 struct Filter {
   std::string name_of_filter;

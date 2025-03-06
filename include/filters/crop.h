@@ -1,6 +1,8 @@
 #ifndef CROP_FILTER_H
 #define CROP_FILTER_H
-#include "../imports.h"
+
+#include "../filter_base.h"
+#include <vector>
 
 class CropFilter : public FilterBase {
   int new_width_;
@@ -13,4 +15,5 @@ public:
              int &height) const override;
   std::string get_name() const override;
 };
+
 #endif //CROP_FILTER_H

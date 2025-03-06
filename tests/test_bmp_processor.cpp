@@ -1,5 +1,10 @@
 #include "gtest/gtest.h"
-#include "../include/imports.h"
+#include "../include/bmp_processor.h"
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <thread>
 
 int test_main(const std::vector<std::string>& args); // Объявление, но без реализации
 
@@ -43,3 +48,86 @@ TEST(BMPProcessorTest, InvalidArgumentsTest) {
     };
     EXPECT_NE(test_main(args), 0); // Должен вернуть ошибку
 }
+
+
+
+TEST(BMPProcessorTest, GrayscaleFilterTest) {
+  std::vector<std::string> args = {
+    "test",             // Имя программы
+    "../images/lenna.bmp", // Входной файл
+    "output_gs.bmp",    // Выходной файл
+    "-gs"               // Фильтр градаций серого
+};
+
+  // Запуск основного кода с аргументами
+  EXPECT_EQ(test_main(args), 0);
+
+  // Загружаем обработанное изображение через конструктор
+  BMPProcessor output_processor("output_gs.bmp", "temp_output.bmp");
+
+  // Проверяем, что изображение действительно в градациях серого
+  // Для этого сравниваем файлы побайтово
+  std::ifstream output_file("output_gs.bmp", std::ios::binary);
+  EXPECT_TRUE(output_file.is_open());
+
+  // Пропускаем заголовок BMP (первые 54 байта)
+  output_file.seekg(54, std::ios::beg);
+
+  // Проверяем, что все каналы равны (градации серого)
+  char r, g, b;
+  while (output_file.get(r) && output_file.get(g) && output_file.get(b)) {
+    EXPECT_EQ(r, g);
+    EXPECT_EQ(g, b);
+  }
+
+  output_file.close();
+}
+
+
+TEST(BMPProcessorTest, DopInvalidArgumentsTest) {
+  std::vector<std::string> args = {
+    "test",             // Имя программы
+    "../images/lenna.bmp", // Входной файл
+    "output.bmp",
+    "-crop"             // Фильтр, но не хватает аргументов
+};
+
+  // Ожидаем ошибку, так как аргументы некорректны
+  EXPECT_NE(test_main(args), 0);
+}
+
+TEST(BMPProcessorTest, NegativeFilterTest) {
+  std::vector<std::string> args = {
+    "test",
+    "../images/flag.bmp",
+    "output_neg.bmp",
+    "-neg"
+};
+
+  // Запускаем обработку
+  EXPECT_EQ(test_main(args), 0);
+
+  // Загружаем оригинальное изображение
+  BMPProcessor original_processor("../images/flag.bmp", "temp_orig.bmp");
+
+  // Загружаем обработанное изображение
+  BMPProcessor neg_processor("output_neg.bmp", "temp_neg.bmp");
+
+  // Получаем данные пикселей
+  const auto& orig_data = original_processor.get_image_data();
+  const auto& neg_data = neg_processor.get_image_data();
+
+  // Проверяем размеры
+  ASSERT_EQ(orig_data.size(), neg_data.size());
+
+  // Проверяем каждый пиксель
+  for (size_t i = 0; i < orig_data.size(); ++i) {
+    EXPECT_EQ(neg_data[i], static_cast<uint8_t>(255 - orig_data[i]))
+        << "Mismatch at pixel index " << i;
+  }
+}
+
+
+
+
+

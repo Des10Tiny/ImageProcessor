@@ -1,6 +1,8 @@
 #ifndef VALIDATION_DATA_H
 #define VALIDATION_DATA_H
 
+#include <set>
+
 void ValidationInputData(const Parameters& parameters, const std::unordered_map<std::string, int>& isFilter);
 void ValidationAllSupportedFilters(const Parameters& parameters, const std::unordered_map<std::string, int>& isFilter);
 // void ValidationFiltersFailedMessage(const Parameters& parameters);

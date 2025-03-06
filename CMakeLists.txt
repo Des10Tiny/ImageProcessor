@@ -5,19 +5,21 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(ImageProcessor
         include/parameters.h
-        include/imports.h
-        include/filters/crop_filter.h
+        include/filters/crop.h
         include/filter_base.h
         include/filter_factory.h
         include/bmp_processor.h
         include/validation_data.h
         include/generate_start_setup.h
+        include/filters/grayscale.h
+        include/filters/negative.h
         src/main.cpp
         src/parameters.cpp
-        src/filters/crop_filter.cpp
+        src/filters/crop.cpp
         src/bmp_processor.cpp
         src/filter_factory.cpp
         src/validation_data.cpp
         src/generate_start_setup.cpp
-
+        src/filters/grayscale.cpp
+        src/filters/negative.cpp
 )

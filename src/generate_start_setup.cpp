@@ -1,4 +1,6 @@
-#include "../include/imports.h"
+#include <stdexcept>
+#include "../include/parameters.h"
+#include <iostream>
 
 // Вывод справки
 void PrintHelp() {

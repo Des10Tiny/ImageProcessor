@@ -1,4 +1,10 @@
-#include "../include/imports.h"
+#include "../include/parameters.h"
+#include "../include/validation_data.h"
+#include "../include/generate_start_setup.h"
+#include "../include/bmp_processor.h"
+#include "../include/filter_factory.h"
+#include <iostream>
+#include <set>
 
 int main(const int argc, char** argv) {
   std::unordered_map<std::string, int> filters = {
