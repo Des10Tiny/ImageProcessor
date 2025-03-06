@@ -16,6 +16,7 @@ add_executable(ImageProcessor
         include/generate_start_setup.h
         include/filters/grayscale.h
         include/filters/negative.h
+        include/validation_exception.h
         src/main.cpp
         src/parameters.cpp
         src/filters/crop.cpp
