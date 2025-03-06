@@ -3,6 +3,8 @@
 
 #include "../filter_base.h"
 #include <vector>
+#include <cstdint>
+#include <string>
 
 class CropFilter : public FilterBase {
   int new_width_;

@@ -3,6 +3,8 @@
 #define NEGATIVE_H
 
 #include <string>
+#include <cstdint>
+#include <string>
 #include "../filter_base.h"
 
 class NegativeFilter : public FilterBase {

@@ -1,5 +1,5 @@
 #include "../../include/filters/crop.h"
-
+#include <stdexcept>
 
 CropFilter::CropFilter(const int new_width, const int new_height)
     : new_width_(new_width), new_height_(new_height) {}
