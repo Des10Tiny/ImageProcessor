@@ -1,5 +1,6 @@
 #include "../include/parameters.h"
 #include "../include/generate_start_setup.h"
+#include "../include/validation_exception.h"
 #include <stdexcept>
 #include <iostream>
 #include <vector>
@@ -55,7 +56,7 @@ Parameters GenerateParameters(const int argc, char** argv) {
     exit(0);
   }
   if (argc <= 3 || argv[3][0] != '-') {
-    throw std::runtime_error("Invalid number of arguments");
+    throw ValidationException("Invalid number of arguments");
   }
 
   const std::string path_to_input_file = argv[1];
@@ -68,7 +69,7 @@ Parameters GenerateParameters(const int argc, char** argv) {
   int parameter_index = 3;
 
   if (argv[3][0] != '-') {
-    throw std::runtime_error("Invalid format ");
+    throw ValidationException("Invalid format ");
   }
   while (parameter_index < argc) {
       if (argv[parameter_index][0] == '-') {

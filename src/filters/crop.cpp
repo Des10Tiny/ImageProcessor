@@ -1,4 +1,5 @@
 #include "../../include/filters/crop.h"
+#include "../../include/validation_exception.h"
 #include <stdexcept>
 #include <algorithm>
 #include <utility>
@@ -11,10 +12,10 @@ CropFilter::CropFilter(const int new_width, const int new_height)
 
 void CropFilter::apply(std::vector<uint8_t>& image_data, int& width, int& height, int num_threads) const {
     if (new_width_ <= 0 || new_height_ <= 0) {
-        throw std::runtime_error("Crop dimensions must be positive");
+        throw ValidationException("Crop dimensions must be positive");
     }
     if (new_width_ > width || new_height_ > height) {
-        throw std::runtime_error("Crop dimensions exceed original image size");
+        throw ValidationException("Crop dimensions exceed original image size");
     }
 
     std::vector<uint8_t> cropped_data(new_width_ * new_height_ * 3);

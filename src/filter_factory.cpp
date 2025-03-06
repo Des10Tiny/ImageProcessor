@@ -4,14 +4,14 @@
 #include "../include/filters/grayscale.h"
 #include "../include/filters/negative.h"
 #include "../include/filter_factory.h"
-#include <stdexcept>
-// Добавляем другие фильтры по мере реализации
+#include "../include/validation_exception.h"
 
+// Добавляем другие фильтры по мере реализации
 std::unique_ptr<FilterBase> create_filter(const Filter& filter) {
   if (filter.name_of_filter == "-crop") {
     return std::make_unique<CropFilter>(
-      static_cast<int>(std::stoi(filter.parameters[0])),
-      static_cast<int>(std::stoi(filter.parameters[1])));
+      std::stoi(filter.parameters[0]),
+      std::stoi(filter.parameters[1]));
   }
   if (filter.name_of_filter == "-gs") {
     return std::make_unique<GrayscaleFilter>();
@@ -22,6 +22,6 @@ std::unique_ptr<FilterBase> create_filter(const Filter& filter) {
   }
 
   // Добавить другие фильтры здесь
-  throw std::runtime_error("It's never going to happen. Unknown filter: "
+  throw ValidationException("It's never going to happen. Unknown filter: "
     + filter.name_of_filter);
 }

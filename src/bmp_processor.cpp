@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstring>
 #include <stdexcept>
+#include "../include/validation_exception.h"
 
 const unsigned char BMPProcessor::BMP_HEADER_TEMPLATE[BMPProcessor::BMP_HEADER_SIZE] = {
     'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0,
@@ -20,7 +21,7 @@ void BMPProcessor::add_filter(std::unique_ptr<FilterBase> filter) {
 
 void BMPProcessor::apply_filters() {
   // Каждый фильтр сам управляет многопоточностью в своём методе apply()
-  for (auto &filter : filters_) {
+  for (const auto &filter : filters_) {
     filter->apply(image_data_, width_, height_, num_threads_);
   }
 }
@@ -28,19 +29,19 @@ void BMPProcessor::apply_filters() {
 void BMPProcessor::load() {
   std::ifstream file(input_path_, std::ios::binary);
   if (!file) {
-    throw std::runtime_error("Failed to open input file");
+    throw ValidationException("Failed to open input file");
   }
 
   char header[BMP_HEADER_SIZE];
   file.read(header, BMP_HEADER_SIZE);
   if (header[0] != 'B' || header[1] != 'M') {
-    throw std::runtime_error("Invalid BMP file (wrong signature)");
+    throw ValidationException("Invalid BMP file (wrong signature)");
   }
 
   width_ = *reinterpret_cast<int *>(&header[18]);
   height_ = *reinterpret_cast<int *>(&header[22]);
   if (width_ <= 0 || height_ <= 0) {
-    throw std::runtime_error("Invalid BMP dimensions");
+    throw ValidationException("Invalid BMP dimensions");
   }
 
   const int file_row_size = ((width_ * PIXEL_SIZE + 3) / 4) * 4;
@@ -50,7 +51,7 @@ void BMPProcessor::load() {
   for (int row = 0; row < height_; ++row) {
     file.read(reinterpret_cast<char *>(row_data.data()), file_row_size);
     if (!file) {
-      throw std::runtime_error("Error reading BMP row");
+      throw ValidationException("Error reading BMP row");
     }
     std::copy_n(row_data.begin(), width_ * PIXEL_SIZE,
                 image_data_.begin() + row * width_ * PIXEL_SIZE);
@@ -60,7 +61,7 @@ void BMPProcessor::load() {
 void BMPProcessor::save() const {
   std::ofstream file(output_path_, std::ios::binary);
   if (!file) {
-    throw std::runtime_error("Failed to open output file");
+    throw ValidationException("Failed to open output file");
   }
 
   const int row_size = ((width_ * PIXEL_SIZE + 3) / 4) * 4;
