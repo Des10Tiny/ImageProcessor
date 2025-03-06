@@ -1,11 +1,11 @@
-
 #ifndef NEGATIVE_H
 #define NEGATIVE_H
 
+#include "../filter_base.h"
 #include <string>
 #include <cstdint>
-#include <string>
-#include "../filter_base.h"
+#include <vector>
+
 
 class NegativeFilter : public FilterBase {
 
