@@ -127,6 +127,68 @@ TEST(BMPProcessorTest, NegativeFilterTest) {
   }
 }
 
+TEST(BMPProcessorTest, MultipleFiltersTest) {
+  std::vector<std::string> args = {
+    "test",              // Имя программы
+    "../images/lenna.bmp", // Входной файл
+    "output_multiple_filters.bmp", // Выходной файл
+    "-crop",             // Фильтр обрезки
+    "500",              // Ширина
+    "500",              // Высота
+    "-gs",               // Фильтр градаций серого
+    "-neg"               // Фильтр негатива
+};
+
+  // Ожидаем успешное выполнение
+  EXPECT_EQ(test_main(args), 0);
+
+  // Проверяем, что выходной файл существует
+  EXPECT_TRUE(std::filesystem::exists("output_multiple_filters.bmp"));
+}
+
+
+TEST(BMPProcessorTest, MissingFilterParametersTest) {
+  std::vector<std::string> args = {
+    "test",              // Имя программы
+    "../images/lenna.bmp", // Входной файл
+    "output_missing_params.bmp", // Выходной файл
+    "-crop"              // Фильтр, но параметры не переданы
+};
+
+  // Ожидаем ошибку, так как параметры отсутствуют
+  EXPECT_NE(test_main(args), 0);
+}
+
+TEST(BMPProcessorTest, ExtraFilterParametersTest) {
+  std::vector<std::string> args = {
+    "test",              // Имя программы
+    "../images/lenna.bmp", // Входной файл
+    "output_extra_params.bmp", // Выходной файл
+    "-gs",               // Фильтр градаций серого
+    "100",               // Лишний параметр
+    "200"                // Лишний параметр
+};
+
+  // Ожидаем ошибку, так как переданы лишние параметры
+  EXPECT_NE(test_main(args), 0);
+}
+
+
+TEST(BMPProcessorTest, MultithreadingTest) {
+  std::vector<std::string> args = {
+    "test",              // Имя программы
+    "../images/lenna.bmp", // Входной файл
+    "output_multithread.bmp", // Выходной файл
+    "-gs"               // Фильтр градаций серого
+};
+
+  // Ожидаем успешное выполнение
+  EXPECT_EQ(test_main(args), 0);
+
+  // Проверяем, что выходной файл существует
+  EXPECT_TRUE(std::filesystem::exists("output_multithread.bmp"));
+}
+
 
 
 
