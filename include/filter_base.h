@@ -1,6 +1,7 @@
 #ifndef FILTER_BASE_H
 #define FILTER_BASE_H
-#include "imports.h"
+
+#include <vector>
 
 class FilterBase {
 public:

@@ -1,7 +1,8 @@
 #ifndef BMP_PROCESSOR_H
 #define BMP_PROCESSOR_H
 
-#include "imports.h"
+#include "filter_base.h"
+#include <vector>
 
 class BMPProcessor {
   std::string input_path_;
@@ -18,6 +19,10 @@ public:
   void add_filter(std::unique_ptr<FilterBase> filter);
   void apply_filters();
   void save() const;
+
+  [[nodiscard]] std::vector<uint8_t> get_image_data() const { return image_data_; }
+  [[nodiscard]] int get_width() const { return width_; }
+  [[nodiscard]] int get_height() const { return height_; }
 
 private:
   void load();
