@@ -7,7 +7,7 @@
 #include <vector>
 
 
-class NegativeFilter : public FilterBase {
+class NegativeFilter final : public FilterBase {
   void ProcessPartition(const std::vector<uint8_t>& image_data, std::vector<uint8_t>& negative_data,
                             int height, int width, int start_y, int end_y) const override;
   void RunThreads(std::vector<uint8_t>& image_data, std::vector<uint8_t>& negative_data,
@@ -17,7 +17,7 @@ public:
   NegativeFilter();
 
   void apply(std::vector<uint8_t> &image_data, int &width, int &height, int num_threads) const override;
-  std::string get_name() const override;
+  [[nodiscard]] std::string get_name() const override;
 };
 
 #endif //NEGATIVE_H

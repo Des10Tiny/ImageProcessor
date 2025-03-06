@@ -1,10 +1,12 @@
+#include <utility>
+
 #include "../include/parameters.h"
 
-Parameters::Parameters(const std::string& path_to_input_file,
-           const std::string& path_to_output_file,
+Parameters::Parameters(std::string  path_to_input_file,
+           std::string  path_to_output_file,
            const std::vector<Filter>& filters)
-    : path_to_input_file(path_to_input_file),
-      path_to_output_file(path_to_output_file),
+    : path_to_input_file(std::move(path_to_input_file)),
+      path_to_output_file(std::move(path_to_output_file)),
       filters(filters) {
 }
 

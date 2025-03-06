@@ -3,7 +3,7 @@
 
 #include "filter_base.h"
 #include <vector>
-#include <memory>
+#include <memory> // NOLINT
 #include <string>
 
 class BMPProcessor {
@@ -25,7 +25,7 @@ private:
   int num_threads_;
 
 public:
-  BMPProcessor(const std::string &input_path, const std::string &output_path, int num_threads);
+  BMPProcessor(std::string input_path, std::string output_path, int num_threads);
   ~BMPProcessor() = default;
 
   void add_filter(std::unique_ptr<FilterBase> filter);

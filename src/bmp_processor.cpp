@@ -1,17 +1,22 @@
 #include "../include/bmp_processor.h"
-#include <fstream>
-#include <algorithm>
+#include <fstream> // NOLINT
+#include <algorithm> // NOLINT
 #include <cstring>
 #include <stdexcept>
+#include <utility> // NOLINT
 #include "../include/validation_exception.h"
 
-const unsigned char BMPProcessor::BMP_HEADER_TEMPLATE[BMPProcessor::BMP_HEADER_SIZE] = {
+const unsigned char BMPProcessor::BMP_HEADER_TEMPLATE[BMP_HEADER_SIZE] = {
     'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0,
     40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 24, 0
 };
 
-BMPProcessor::BMPProcessor(const std::string &input_path, const std::string &output_path, int num_threads)
-    : input_path_(input_path), output_path_(output_path), num_threads_(num_threads) {
+BMPProcessor::BMPProcessor(std::string input_path, std::string output_path, int num_threads)
+    : input_path_(std::move(input_path)),
+      output_path_(std::move(output_path)),
+      width_(0),
+      height_(0),
+      num_threads_(num_threads) {
   load();
 }
 

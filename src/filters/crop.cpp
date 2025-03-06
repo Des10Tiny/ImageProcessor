@@ -2,7 +2,7 @@
 #include "../../include/validation_exception.h"
 #include <stdexcept>
 #include <algorithm>
-#include <utility>
+#include <utility> // NOLINT
 #include <vector>
 #include <thread>
 #include <iostream>
@@ -43,7 +43,7 @@ void CropFilter::ProcessPartition(const std::vector<uint8_t>& image_data, std::v
 
 
 void CropFilter::RunThreads(std::vector<uint8_t>& image_data, std::vector<uint8_t>& cropped_data,
-                            int width, int height, int num_threads) const {
+                            int width, int height, const int num_threads) const {
     std::vector<std::thread> threads;
     const int base_partition = new_height_ / num_threads;
     const int extra_rows = new_height_ % num_threads;
@@ -66,6 +66,6 @@ void CropFilter::RunThreads(std::vector<uint8_t>& image_data, std::vector<uint8_
     }
 }
 
-std::string CropFilter::get_name() const{
+[[nodiscard]] std::string CropFilter::get_name() const{
     return "CropFilter";
 };
