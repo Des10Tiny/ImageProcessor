@@ -63,7 +63,7 @@ TEST(BMPProcessorTest, GrayscaleFilterTest) {
   EXPECT_EQ(test_main(args), 0);
 
   // Загружаем обработанное изображение через конструктор
-  BMPProcessor output_processor("output_gs.bmp", "temp_output.bmp");
+  BMPProcessor output_processor("output_gs.bmp", "temp_output.bmp", 6);
 
   // Проверяем, что изображение действительно в градациях серого
   // Для этого сравниваем файлы побайтово
@@ -108,10 +108,10 @@ TEST(BMPProcessorTest, NegativeFilterTest) {
   EXPECT_EQ(test_main(args), 0);
 
   // Загружаем оригинальное изображение
-  BMPProcessor original_processor("../images/flag.bmp", "temp_orig.bmp");
+  BMPProcessor original_processor("../images/flag.bmp", "temp_orig.bmp", 6);
 
   // Загружаем обработанное изображение
-  BMPProcessor neg_processor("output_neg.bmp", "temp_neg.bmp");
+  BMPProcessor neg_processor("output_neg.bmp", "temp_neg.bmp", 6);
 
   // Получаем данные пикселей
   const auto& orig_data = original_processor.get_image_data();
