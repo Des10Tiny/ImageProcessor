@@ -4,6 +4,7 @@
 #include "../include/filters/grayscale.h"
 #include "../include/filters/negative.h"
 #include "../include/filter_factory.h"
+#include <stdexcept>
 // Добавляем другие фильтры по мере реализации
 
 std::unique_ptr<FilterBase> create_filter(const Filter& filter) {
