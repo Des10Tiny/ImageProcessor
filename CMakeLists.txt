@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.30)
 project(ImageProcessor)
 
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address ")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread -fno-omit-frame-pointer")
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(ImageProcessor
@@ -23,3 +26,4 @@ add_executable(ImageProcessor
         src/filters/grayscale.cpp
         src/filters/negative.cpp
 )
+

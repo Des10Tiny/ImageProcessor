@@ -2,10 +2,15 @@
 #include <fstream>
 #include <algorithm>
 #include <cstring>
-#include <utility>
+#include <stdexcept>
 
-BMPProcessor::BMPProcessor(const std::string& input_path, const std::string& output_path)
-    : input_path_(input_path), output_path_(output_path) {
+const unsigned char BMPProcessor::BMP_HEADER_TEMPLATE[BMPProcessor::BMP_HEADER_SIZE] = {
+    'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0,
+    40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 24, 0
+};
+
+BMPProcessor::BMPProcessor(const std::string &input_path, const std::string &output_path, int num_threads)
+    : input_path_(input_path), output_path_(output_path), num_threads_(num_threads) {
   load();
 }
 
@@ -14,8 +19,9 @@ void BMPProcessor::add_filter(std::unique_ptr<FilterBase> filter) {
 }
 
 void BMPProcessor::apply_filters() {
-  for (const auto& filter : filters_) {
-    filter->apply(image_data_, width_, height_);
+  // Каждый фильтр сам управляет многопоточностью в своём методе apply()
+  for (auto &filter : filters_) {
+    filter->apply(image_data_, width_, height_, num_threads_);
   }
 }
 
@@ -25,36 +31,29 @@ void BMPProcessor::load() {
     throw std::runtime_error("Failed to open input file");
   }
 
-  char header[54];
-  file.read(header, 54);
+  char header[BMP_HEADER_SIZE];
+  file.read(header, BMP_HEADER_SIZE);
   if (header[0] != 'B' || header[1] != 'M') {
-    throw std::runtime_error("Input file is not a valid BMP file (invalid signature)");
+    throw std::runtime_error("Invalid BMP file (wrong signature)");
   }
 
   width_ = *reinterpret_cast<int *>(&header[18]);
   height_ = *reinterpret_cast<int *>(&header[22]);
-
   if (width_ <= 0 || height_ <= 0) {
-    throw std::runtime_error("Invalid BMP file: width or height is non-positive");
+    throw std::runtime_error("Invalid BMP dimensions");
   }
 
-  // Вычисляем размер строки в файле с учётом выравнивания
-  // (каждая строка выровнена до кратного 4 байт)
-  const int file_row_size = ((width_ * 3 + 3) / 4) * 4;
-  // В памяти храним только полезные пиксели:
-  // width_ * 3 байт на строку, BMP хранит данные снизу вверх
-  image_data_.resize(width_ * height_ * 3);
+  const int file_row_size = ((width_ * PIXEL_SIZE + 3) / 4) * 4;
+  image_data_.resize(width_ * height_ * PIXEL_SIZE);
   std::vector<uint8_t> row_data(file_row_size);
 
-  // Читаем построчно. Первая строка в файле – нижняя строка изображения.
   for (int row = 0; row < height_; ++row) {
-    file.read(reinterpret_cast<char*>(row_data.data()), file_row_size);
+    file.read(reinterpret_cast<char *>(row_data.data()), file_row_size);
     if (!file) {
-      throw std::runtime_error("Error reading BMP file row");
+      throw std::runtime_error("Error reading BMP row");
     }
-    // Копируем только полезные данные (без padding)
-    std::copy_n(row_data.begin(), (width_ * 3),
-              image_data_.begin() + row * width_ * 3);
+    std::copy_n(row_data.begin(), width_ * PIXEL_SIZE,
+                image_data_.begin() + row * width_ * PIXEL_SIZE);
   }
 }
 
@@ -64,32 +63,24 @@ void BMPProcessor::save() const {
     throw std::runtime_error("Failed to open output file");
   }
 
-  // При сохранении необходимо добавить padding к каждой строке
-  const int row_size = ((width_ * 3 + 3) / 4) * 4;
-  const int file_size = 54 + row_size * height_;
+  const int row_size = ((width_ * PIXEL_SIZE + 3) / 4) * 4;
+  const int file_size = BMP_HEADER_SIZE + row_size * height_;
+  unsigned char header[BMP_HEADER_SIZE];
 
-  unsigned char header[54] = {
-    'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0,
-    40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 24, 0
-  };
-
-  // Заполняем заголовок
+  std::memcpy(header, BMP_HEADER_TEMPLATE, BMP_HEADER_SIZE);
   std::memcpy(&header[2], &file_size, 4);
   std::memcpy(&header[18], &width_, 4);
   std::memcpy(&header[22], &height_, 4);
   const int raw_size = row_size * height_;
   std::memcpy(&header[34], &raw_size, 4);
 
-  file.write(reinterpret_cast<char*>(header), 54);
+  file.write(reinterpret_cast<char *>(header), BMP_HEADER_SIZE);
 
-  // Подготавливаем буфер для строки с выравниванием
   std::vector<uint8_t> row_buffer(row_size, 0);
-
-  // Записываем строки в том же порядке, что и в памяти (BMP ожидает данные снизу вверх)
   for (int row = 0; row < height_; ++row) {
-    const int data_index = row * width_ * 3;
-    std::memcpy(row_buffer.data(), &image_data_[data_index], width_ * 3);
-    file.write(reinterpret_cast<char*>(row_buffer.data()), row_size);
+    const int data_index = row * width_ * PIXEL_SIZE;
+    std::memcpy(row_buffer.data(), &image_data_[data_index], width_ * PIXEL_SIZE);
+    file.write(reinterpret_cast<char *>(row_buffer.data()), row_size);
   }
   file.close();
 }

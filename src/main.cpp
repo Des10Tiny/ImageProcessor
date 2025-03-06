@@ -6,6 +6,8 @@
 #include <iostream>
 #include <set>
 
+int NUMBER_OF_THREADS = 6;
+
 int main(const int argc, char** argv) {
   std::unordered_map<std::string, int> filters = {
     {"-crop", 2},
@@ -16,7 +18,7 @@ int main(const int argc, char** argv) {
   try {
     const Parameters param = GenerateParameters(argc, argv);
     ValidationInputData(param, filters);
-    BMPProcessor processor(param.get_path_to_input_file(), param.get_path_to_output_file());
+    BMPProcessor processor(param.get_path_to_input_file(), param.get_path_to_output_file(), NUMBER_OF_THREADS);
 
     for (const auto& filter : param.get_filters()) {
       processor.add_filter(create_filter(filter));
