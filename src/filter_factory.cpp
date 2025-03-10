@@ -3,6 +3,7 @@
 #include "../include/filters/crop.h"
 #include "../include/filters/grayscale.h"
 #include "../include/filters/negative.h"
+#include "../include/filters/sharpening.h"
 #include "../include/filter_factory.h"
 #include "../include/validation_exception.h"
 
@@ -19,6 +20,10 @@ std::unique_ptr<FilterBase> create_filter(const Filter& filter) {
 
   if (filter.name_of_filter == "-neg") {
     return std::make_unique<NegativeFilter>();
+  }
+
+  if (filter.name_of_filter == "-sharp") {
+    return std::make_unique<SharpeningFilter>();
   }
 
   // Добавить другие фильтры здесь

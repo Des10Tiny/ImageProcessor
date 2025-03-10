@@ -13,6 +13,7 @@ int main(const int argc, char** argv) {
     {"-crop", 2},
     {"-gs", 0},
     {"-neg", 0},
+    {"-sharp", 0}
   };
 
   try {

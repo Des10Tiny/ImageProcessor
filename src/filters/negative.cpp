@@ -6,7 +6,7 @@
 NegativeFilter::NegativeFilter() = default;
 
 
-void NegativeFilter::apply(std::vector<uint8_t>& image_data, int& width, int& height, int num_threads) const {
+void NegativeFilter::apply(std::vector<uint8_t>& image_data, int& width, int& height, const int num_threads) const {
   std::vector<uint8_t> negative_data(width * height * 3);
   RunThreads(image_data, negative_data, width, height, num_threads);
   image_data = std::move(negative_data);
