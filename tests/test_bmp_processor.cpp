@@ -190,6 +190,55 @@ TEST(BMPProcessorTest, MultithreadingTest) {
   EXPECT_TRUE(std::filesystem::exists("output_multithread.bmp"));
 }
 
+TEST(BMPProcessorTest, SharpenFilterTest) {
+  std::vector<std::string> args = {
+    "test",               // Имя программы
+    "../images/lenna.bmp",// Входной файл
+    "output_sharp.bmp",   // Выходной файл
+    "-sharp"              // Фильтр резкости
+  };
+
+  // Запуск обработки изображения
+  ASSERT_EQ(test_main(args), 0);
+
+  // Загружаем оригинальное изображение и обработанное
+  BMPProcessor original_processor("../images/lenna.bmp", "temp_orig.bmp", 6);
+  BMPProcessor sharp_processor("output_sharp.bmp", "temp_sharp.bmp", 6);
+
+  const auto& orig_data = original_processor.get_image_data();
+  const auto& sharp_data = sharp_processor.get_image_data();
+
+  // Проверяем, что размеры изображений совпадают
+  ASSERT_EQ(orig_data.size(), sharp_data.size());
+
+  // Проверяем, что хотя бы один пиксель изменился (фильтр резкости должен изменить изображение)
+  bool images_differ = false;
+  for (size_t i = 0; i < orig_data.size(); ++i) {
+    if (orig_data[i] != sharp_data[i]) {
+      images_differ = true;
+      break;
+    }
+  }
+  EXPECT_TRUE(images_differ);
+}
+
+TEST(BMPProcessorTest, MultipleFiltersWithSharpenTest) {
+  std::vector<std::string> args = {
+    "test",                          // Имя программы
+    "../images/lenna.bmp",           // Входной файл
+    "output_sharp_multiple.bmp",     // Выходной файл
+    "-crop", "500", "500",           // Фильтр обрезки
+    "-sharp",                        // Фильтр резкости
+    "-neg"                           // Фильтр негатива
+  };
+
+  // Запускаем обработку несколькими фильтрами
+  EXPECT_EQ(test_main(args), 0);
+
+  // Проверяем, что выходной файл существует
+  EXPECT_TRUE(std::filesystem::exists("output_sharp_multiple.bmp"));
+}
+
 
 
 
