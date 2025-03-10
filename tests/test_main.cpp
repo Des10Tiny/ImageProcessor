@@ -8,7 +8,7 @@
 #include "../include/filters/grayscale.h"
 #include "../include/filters/negative.h"
 #include "../include/filters/crop.h"
-
+#include "../include/filters/sharpening.h"  // Добавляем фильтр резкости
 
 #ifdef UNIT_TEST
 
@@ -52,6 +52,9 @@ int test_main(const std::vector<std::string>& args) {
       int height = std::stoi(args[i + 2]);
       processor.add_filter(std::make_unique<CropFilter>(width, height));
       i += 2;  // Пропускаем параметры ширины и высоты
+    } else if (args[i] == "-sharp") {
+      // Применяем фильтр резкости
+      processor.add_filter(std::make_unique<SharpeningFilter>());
     } else {
       std::cerr << "Error: Unknown filter " << args[i] << std::endl;
       return 1;
