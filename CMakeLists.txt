@@ -18,6 +18,7 @@ add_executable(ImageProcessor
         include/filters/negative.h
         include/validation_exception.h
         include/filters/sharpening.h
+        include/change_threads.h
         src/main.cpp
         src/parameters.cpp
         src/filters/crop.cpp
@@ -28,5 +29,6 @@ add_executable(ImageProcessor
         src/filters/grayscale.cpp
         src/filters/negative.cpp
         src/filters/sharpening.cpp
+        src/change_threads.cpp
 )
 

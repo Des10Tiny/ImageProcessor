@@ -2,6 +2,7 @@
 #define FILTER_FACTORY_H
 
 #include "filter_base.h"
+#include "parameters.h"
 #include <set>
 #include <memory> //NOLINT
 
