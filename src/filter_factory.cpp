@@ -6,6 +6,7 @@
 #include "../include/filters/sharpening.h"
 #include "../include/filter_factory.h"
 #include "../include/validation_exception.h"
+#include <iostream>
 
 // Добавляем другие фильтры по мере реализации
 std::unique_ptr<FilterBase> create_filter(const Filter& filter) {
