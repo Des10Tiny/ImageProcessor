@@ -1,10 +1,10 @@
 #include "../include/bmp_processor.h"
+#include "../include/change_threads.h"
 #include "../include/filter_factory.h"
 #include "../include/generate_start_setup.h"
 #include "../include/parameters.h"
 #include "../include/validation_data.h"
 #include "../include/validation_exception.h"
-#include "../include/change_threads.h"
 #include <iostream>
 #include <set> // NOLINT
 
@@ -33,11 +33,11 @@ int main(int argc, char **argv) {
 
     std::cout << "Image processing completed successfully!" << std::endl;
 
-  } catch (const ValidationException& e) {
-    std::cerr << "Ошибка валидации: " << e.what() << std::endl;
+  } catch (const ValidationException &e) {
+    std::cerr << "Validation error: " << e.what() << std::endl;
     return EXIT_FAILURE;
-  } catch (const std::exception& e) {
-    std::cerr << "Неизвестная ошибка: " << e.what() << std::endl;
+  } catch (const std::exception &e) {
+    std::cerr << "Unknown error: " << e.what() << std::endl;
     return EXIT_FAILURE;
   }
 
