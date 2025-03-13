@@ -16,11 +16,12 @@ The program is executed with the following command-line syntax:
 {program_name} {input_file_path} {output_file_path}
 [-{filter_name_1} [filter_parameter_1] [filter_parameter_2] ...]
 [-{filter_name_2} [filter_parameter_1] [filter_parameter_2] ...] ...
+[-threads {num_threads}]
 ```
 
 ### Example:
 ```
-./image_processor input.bmp output.bmp -crop 800 600 -gs -blur 0.5
+./image_processor input.bmp output.bmp -crop 800 600 -gs -blur 0.5 -threads 4
 ```
 
 **This command does the following:**
@@ -28,7 +29,8 @@ The program is executed with the following command-line syntax:
 2. Crops it to `800x600` pixels from the top-left corner
 3. Converts the image to grayscale
 4. Applies a blur filter with sigma `0.5`
-5. Saves the processed image to `output.bmp`
+5. Uses 4 threads for processing
+6. Saves the processed image to `output.bmp`
 
 Filters are applied in the order they are specified. If no filters are provided, the image is saved unchanged.
 
@@ -102,6 +104,19 @@ Applies [Gaussian blur](https://en.wikipedia.org/wiki/Gaussian_blur) with the sp
 image_processor input.bmp output.bmp -blur 1.0
 ```
 
+## Multithreading Support (`-threads {num_threads}`)
+
+The `-threads` flag allows users to specify the number of threads for image processing. This improves performance, especially on large images.
+
+### Example:
+```
+./image_processor input.bmp output.bmp -sharp -threads 8
+```
+
+This will apply the sharpening filter using 8 threads for faster processing.
+
+The `-threads` flag can be placed anywhere in the command line arguments, and it affects all filters in the processing pipeline.
+
 ## Custom Filter
 - [Crystallize](https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CICrystallize)
 - [Glass Distortion](https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIGlassDistortion)
@@ -117,3 +132,4 @@ make
 ---
 The latest version of `image_processor` can be downloaded from the [releases page](https://github.com/Des10Tiny/ImageProcessor/releases/latest).
 ---
+

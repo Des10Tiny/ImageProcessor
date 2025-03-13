@@ -23,6 +23,7 @@ void ChangeThreads(int &argc, char **&argv, int &NUMBER_OF_THREADS) {
       break;
     }
   }
-  std::cout << "Текущее количество потоков - " << NUMBER_OF_THREADS
+  std::cout << "Current number of threads - " << NUMBER_OF_THREADS
             << std::endl;
+  std::cout << "Start of photo processing with preset filters..." <<std::endl;
 }
