@@ -14,3 +14,4 @@ build/*
 !tests/images/lenna.bmp
 !tests/images/flag.bmp
 test_script/
+build-windows/
