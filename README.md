@@ -86,9 +86,9 @@ image_processor input.bmp output.bmp -sharp
 Detects edges in the image by converting it to grayscale and applying the kernel:
 
 ```
-[ -1  -1  -1 ]
+[  0  -1   0 ]
 [ -1   4  -1 ]
-[ -1  -1  -1 ]
+[  0  -1   0 ]
 ```
 
 Pixels with a value above `threshold` are set to white, others to black.
