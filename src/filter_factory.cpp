@@ -34,6 +34,10 @@ std::unique_ptr<FilterBase> CreateFilter(const Filter &filter) {
         return std::make_unique<GaussianBlurFilter>(std::stof(filter.parameters[0]));
     }
 
+    if (filter.name_of_filter == "-smooth") {
+        return std::make_unique<GaussianBlurFilter>(std::stoi(filter.parameters[0]));
+    }
+
     // Добавить другие фильтры здесь
     throw ValidationException("It's never going to happen. Unknown filter: " + filter.name_of_filter);
 }

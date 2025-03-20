@@ -38,10 +38,10 @@ int test_main(const std::vector<std::string> &args) {
     for (size_t i = 3; i < args.size(); ++i) {
         if (args[i] == "-neg") {
             // Применяем фильтр негатива
-            processor.add_filter(std::make_unique<NegativeFilter>());
+            processor.AddFilter(std::make_unique<NegativeFilter>());
         } else if (args[i] == "-gs") {
             // Применяем фильтр градаций серого
-            processor.add_filter(std::make_unique<GrayscaleFilter>());
+            processor.AddFilter(std::make_unique<GrayscaleFilter>());
         } else if (args[i] == "-crop") {
             // Проверяем, что для -crop переданы два параметра
             if (i + 2 >= args.size()) {
@@ -50,11 +50,11 @@ int test_main(const std::vector<std::string> &args) {
             }
             int width = std::stoi(args[i + 1]);
             int height = std::stoi(args[i + 2]);
-            processor.add_filter(std::make_unique<CropFilter>(width, height));
+            processor.AddFilter(std::make_unique<CropFilter>(width, height));
             i += 2;  // Пропускаем параметры ширины и высоты
         } else if (args[i] == "-sharp") {
             // Применяем фильтр резкости
-            processor.add_filter(std::make_unique<SharpeningFilter>());
+            processor.AddFilter(std::make_unique<SharpeningFilter>());
         } else {
             std::cerr << "Error: Unknown filter " << args[i] << std::endl;
             return 1;
@@ -62,8 +62,8 @@ int test_main(const std::vector<std::string> &args) {
     }
 
     // Применяем фильтры и сохраняем результат
-    processor.apply_filters();
-    processor.save();
+    processor.ApplyFilters();
+    processor.Save();
 
     std::cout << "Image processed successfully." << std::endl;
     return 0;
