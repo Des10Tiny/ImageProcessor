@@ -21,7 +21,7 @@ public:
     [[nodiscard]] virtual std::string GetName() const = 0;
 
     void ProcessRange(const std::vector<uint8_t> &image_data, std::vector<uint8_t> &result_data, const int width,
-                       const int height, const int start_y, const int end_y) const {
+                      const int height, const int start_y, const int end_y) const {
         ProcessPartition(image_data, result_data, width, height, start_y, end_y);
     }
 };

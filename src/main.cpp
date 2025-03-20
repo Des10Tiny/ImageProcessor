@@ -8,8 +8,6 @@
 #include <iostream>
 #include <set>  // NOLINT
 
-
-
 int main(int argc, char **argv) {
     std::unordered_map<std::string, int> filters = {{"-crop", 2},  {"-gs", 0},   {"-neg", 0},
                                                     {"-sharp", 0}, {"-edge", 1}, {"-blur", 1}};

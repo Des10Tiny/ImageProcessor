@@ -2,7 +2,7 @@
 #include "../include/parameters.h"
 #include "../include/validation_exception.h"
 #include <filesystem>
-#include <stdexcept> //NOLINT
+#include <stdexcept>  //NOLINT
 
 void ValidateInOutPaths(const Parameters &parameters) {
     // Проверка расширения входного файла
@@ -33,7 +33,8 @@ void ValidationAllParametersInFilter(const Parameters &parameters,
                                      const std::unordered_map<std::string, int> &is_filter) {
 }
 
-void ValidationAllSupportedFilters(const Parameters &parameters, const std::unordered_map<std::string, int> &is_filter) {
+void ValidationAllSupportedFilters(const Parameters &parameters,
+                                   const std::unordered_map<std::string, int> &is_filter) {
     if (parameters.GetFilters().empty()) {
         throw ValidationException("No filters were provided.");
     }

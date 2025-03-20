@@ -6,7 +6,8 @@
 #include <thread>
 #include <utility>  // NOLINT
 
-EdgeDetectionFilter::EdgeDetectionFilter(const float threshold) : threshold_(static_cast<int>(threshold * MaxSizeOfPixel)) {
+EdgeDetectionFilter::EdgeDetectionFilter(const float threshold)
+    : threshold_(static_cast<int>(threshold * MaxSizeOfPixel)) {
     if (threshold > MaxSizeOfPixel) {
         throw ValidationException("Threshold must be less than 255");
     }
