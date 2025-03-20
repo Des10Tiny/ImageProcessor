@@ -12,6 +12,7 @@ class SmoothingFilter final : public FilterBase {
                           int height, int start_y, int end_y) const override;
     void RunThreads(std::vector<uint8_t>& image_data, std::vector<uint8_t>& smooth_data, int width, int height,
                     int num_threads) const override;
+
 public:
     explicit SmoothingFilter(int radius);
 
