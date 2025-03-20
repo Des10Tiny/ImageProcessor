@@ -31,6 +31,7 @@ add_executable(ImageProcessorTests
         ../include/filters/sharpening.h
         ../include/filters/edge_detection.h
         ../include/filters/gaussian_blur.h
+        ../include/filters/smoothing.h
         ../src/parameters.cpp
         ../src/filters/crop.cpp
         ../src/bmp_processor.cpp
@@ -42,6 +43,7 @@ add_executable(ImageProcessorTests
         ../src/filters/sharpening.cpp
         ../src/filters/edge_detection.cpp
         ../src/filters/gaussian_blur.cpp
+        ../src/filters/smoothing.cpp
 )
 
 
