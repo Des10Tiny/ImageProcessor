@@ -20,6 +20,7 @@ add_executable(ImageProcessor
         include/filters/sharpening.h
         include/change_threads.h
         include/filters/edge_detection.h
+        include/filters/gaussian_blur.h
         src/main.cpp
         src/parameters.cpp
         src/filters/crop.cpp
@@ -32,5 +33,6 @@ add_executable(ImageProcessor
         src/filters/sharpening.cpp
         src/change_threads.cpp
         src/filters/edge_detection.cpp
+        src/filters/gaussian_blur.cpp
 )
 

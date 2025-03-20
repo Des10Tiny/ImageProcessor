@@ -11,8 +11,9 @@
 int NUMBER_OF_THREADS = 4;
 
 int main(int argc, char **argv) {
-  std::unordered_map<std::string, int> filters = {
-      {"-crop", 2}, {"-gs", 0}, {"-neg", 0}, {"-sharp", 0}, {"-edge", 1}};
+  std::unordered_map<std::string, int> filters = {{"-crop", 2}, {"-gs", 0},
+                                                  {"-neg", 0},  {"-sharp", 0},
+                                                  {"-edge", 1}, {"-blur", 1}};
 
   try {
     ChangeThreads(argc, argv, NUMBER_OF_THREADS);
