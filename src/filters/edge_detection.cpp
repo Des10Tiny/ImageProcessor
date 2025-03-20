@@ -1,5 +1,7 @@
 #include "../../include/filters/edge_detection.h"
 #include "../../include/filters/grayscale.h"
+#include "../../include/validation_exception.h"
+
 #include <algorithm> //NOLINT
 #include <iostream>
 #include <thread>
@@ -7,6 +9,12 @@
 
 EdgeDetectionFilter::EdgeDetectionFilter(const float threshold)
     : threshold_(static_cast<int>(threshold * 255)) {
+  if (threshold > 255) {
+    throw ValidationException("Threshold must be less than 255");
+  }
+  if (threshold < 0) {
+    throw ValidationException("Threshold must be greater than 0");
+  }
 }
 
 void EdgeDetectionFilter::apply(std::vector<uint8_t> &image_data, int &width,
@@ -56,7 +64,6 @@ void EdgeDetectionFilter::ProcessPartition(
             const int neighbor_index = (ny * width + nx) * 3 + c;
             const int kernel_value = kernel[ky + 1][kx + 1];
             sum += image_data[neighbor_index] * kernel_value;
-
           }
         }
         edge_data[index + c] = sum > threshold_ ? 255 : 0;

@@ -10,7 +10,7 @@ build/*
 !build/.gitkeep
 /tests/build
 /tests/Testing
-
+ImageProcessor
 !tests/images/lenna.bmp
 !tests/images/flag.bmp
 test_script/
