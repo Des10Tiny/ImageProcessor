@@ -6,7 +6,7 @@ project(ImageProcessor)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread -fno-omit-frame-pointer")
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(ImageProcessor
+add_executable(image_processor
         include/parameters.h
         include/filters/crop.h
         include/filter_base.h
