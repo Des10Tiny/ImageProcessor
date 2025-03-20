@@ -1,14 +1,11 @@
 #include "../../include/filters/gaussian_blur.h"
 #include "../../include/validation_exception.h"
-#include <algorithm> // NOLINT
-#include <cmath>     // NOLINT
+#include <algorithm>  // NOLINT
+#include <cmath>      // NOLINT
 #include <iostream>
 #include <thread>
 
-GaussianBlurFilter::GaussianBlurFilter(const float sigma)
-    : sigma_(sigma),
-      horizontal_pass_(true)
-{
+GaussianBlurFilter::GaussianBlurFilter(const float sigma) : sigma_(sigma), horizontal_pass_(true) {
     if (sigma_ < 0) {
         throw ValidationException("Sigma must be non-negative");
     }
@@ -16,7 +13,6 @@ GaussianBlurFilter::GaussianBlurFilter(const float sigma)
         std::cerr << "Sigma greater than 100 can cause a serious load on your PC" << std::endl;
         std::cerr << "Increase the number of threads or get ready to wait" << std::endl;
     }
-
 
     // Создаём 1D ядро
     kernel_ = CreateGaussianKernel1D(sigma_, kernel_radius_);
@@ -34,7 +30,7 @@ std::vector<float> GaussianBlurFilter::CreateGaussianKernel1D(const float sigma,
     const float sigma2 = sigma * sigma;
 
     for (int i = -radius; i <= radius; ++i) {
-      const float value = std::exp(static_cast<float>(-(i*i))/(2*sigma2));
+        const float value = std::exp(static_cast<float>(-(i * i)) / (2 * sigma2));
         kernel[i + radius] = value;
         sum += value;
     }
@@ -45,11 +41,8 @@ std::vector<float> GaussianBlurFilter::CreateGaussianKernel1D(const float sigma,
     return kernel;
 }
 
-void GaussianBlurFilter::RunThreads(std::vector<uint8_t> &image_data,
-                                    std::vector<uint8_t> &gaussian_data,
-                                    const int width, const int height,
-                                    const int num_threads) const
-{
+void GaussianBlurFilter::RunThreads(std::vector<uint8_t> &image_data, std::vector<uint8_t> &gaussian_data,
+                                    const int width, const int height, const int num_threads) const {
     std::vector<std::thread> threads;
     threads.reserve(num_threads);
 
@@ -63,10 +56,7 @@ void GaussianBlurFilter::RunThreads(std::vector<uint8_t> &image_data,
             end_y += 1;
         }
         threads.emplace_back(
-            [&, start_y, end_y]() {
-                ProcessPartition(image_data, gaussian_data, width, height, start_y, end_y);
-            }
-        );
+            [&, start_y, end_y]() { ProcessPartition(image_data, gaussian_data, width, height, start_y, end_y); });
         start_y = end_y;
     }
 
@@ -75,18 +65,13 @@ void GaussianBlurFilter::RunThreads(std::vector<uint8_t> &image_data,
     }
 }
 
-void GaussianBlurFilter::ProcessPartition(const std::vector<uint8_t> &image_data,
-                                          std::vector<uint8_t> &gaussian_data,
-                                          const int width,
-                                          const int height,
-                                          const int start_y,
-                                          const int end_y) const
-{
+void GaussianBlurFilter::ProcessPartition(const std::vector<uint8_t> &image_data, std::vector<uint8_t> &gaussian_data,
+                                          const int width, const int height, const int start_y, const int end_y) const {
 
-  for (int y = start_y; y < end_y; ++y) {
+    for (int y = start_y; y < end_y; ++y) {
         for (int x = 0; x < width; ++x) {
-      constexpr int channels = 3;
-      const int dst_index = (y * width + x) * channels;
+            constexpr int channels = 3;
+            const int dst_index = (y * width + x) * channels;
 
             float sum_b = 0.0f;
             float sum_g = 0.0f;
@@ -94,7 +79,7 @@ void GaussianBlurFilter::ProcessPartition(const std::vector<uint8_t> &image_data
 
             // Пробегаемся по радиусу ядра
             for (int k = -kernel_radius_; k <= kernel_radius_; ++k) {
-              const float weight = kernel_[k + kernel_radius_];
+                const float weight = kernel_[k + kernel_radius_];
 
                 if (horizontal_pass_) {
                     // Горизонтальное смещение по X
@@ -124,10 +109,7 @@ void GaussianBlurFilter::ProcessPartition(const std::vector<uint8_t> &image_data
     }
 }
 
-void GaussianBlurFilter::apply(std::vector<uint8_t> &image_data,
-                               int &width,
-                               int &height, const int num_threads) const
-{
+void GaussianBlurFilter::apply(std::vector<uint8_t> &image_data, int &width, int &height, const int num_threads) const {
     std::vector<uint8_t> gaussian_data(width * height * 3);
 
     // Первый проход: горизонтальное размытие
@@ -135,6 +117,6 @@ void GaussianBlurFilter::apply(std::vector<uint8_t> &image_data,
     RunThreads(image_data, gaussian_data, width, height, num_threads);
 
     // Второй проход: вертикальное размытие
-    horizontal_pass_ = false; // переключаем флаг
+    horizontal_pass_ = false;  // переключаем флаг
     RunThreads(gaussian_data, image_data, width, height, num_threads);
 }
