@@ -6,41 +6,39 @@
 #include "../include/validation_data.h"
 #include "../include/validation_exception.h"
 #include <iostream>
-#include <set> // NOLINT
+#include <set>  // NOLINT
 
 int NUMBER_OF_THREADS = 4;
 
 int main(int argc, char **argv) {
-  std::unordered_map<std::string, int> filters = {{"-crop", 2}, {"-gs", 0},
-                                                  {"-neg", 0},  {"-sharp", 0},
-                                                  {"-edge", 1}, {"-blur", 1}};
+    std::unordered_map<std::string, int> filters = {{"-crop", 2},  {"-gs", 0},   {"-neg", 0},
+                                                    {"-sharp", 0}, {"-edge", 1}, {"-blur", 1}};
 
-  try {
-    ChangeThreads(argc, argv, NUMBER_OF_THREADS);
-    const Parameters param = GenerateParameters(argc, argv);
+    try {
+        ChangeThreads(argc, argv, NUMBER_OF_THREADS);
+        const Parameters param = GenerateParameters(argc, argv);
 
-    ValidationInputData(param, filters);
+        ValidationInputData(param, filters);
 
-    BMPProcessor processor(param.get_path_to_input_file(),
-                           param.get_path_to_output_file(), NUMBER_OF_THREADS);
+        BMPProcessor processor(param.get_path_to_input_file(), param.get_path_to_output_file(), NUMBER_OF_THREADS);
 
-    for (const auto &filter : param.get_filters()) {
-      processor.add_filter(create_filter(filter));
+        for (const auto &filter : param.get_filters()) {
+            processor.add_filter(create_filter(filter));
+        }
+
+        // Применяем все фильтры по очереди
+        processor.apply_filters();
+        processor.save();
+
+        std::cout << "Image processing completed successfully!" << std::endl;
+
+    } catch (const ValidationException &e) {
+        std::cerr << "Validation error: " << e.what() << std::endl;
+        return EXIT_FAILURE;
+    } catch (const std::exception &e) {
+        std::cerr << "Unknown error: " << e.what() << std::endl;
+        return EXIT_FAILURE;
     }
 
-    // Применяем все фильтры по очереди
-    processor.apply_filters();
-    processor.save();
-
-    std::cout << "Image processing completed successfully!" << std::endl;
-
-  } catch (const ValidationException &e) {
-    std::cerr << "Validation error: " << e.what() << std::endl;
-    return EXIT_FAILURE;
-  } catch (const std::exception &e) {
-    std::cerr << "Unknown error: " << e.what() << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }

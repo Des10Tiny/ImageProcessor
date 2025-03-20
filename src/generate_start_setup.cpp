@@ -1,15 +1,14 @@
-#include "../include/parameters.h"
 #include "../include/generate_start_setup.h"
+#include "../include/parameters.h"
 #include "../include/validation_exception.h"
-#include <stdexcept>
 #include <iostream>
-#include <vector>
+#include <stdexcept>
 #include <string>
-
+#include <vector>
 
 // Вывод справки
 void PrintHelp() {
-  std::cerr << R"(
+    std::cerr << R"(
 Использование: image_processor <input_file> <output_file> [фильтры с параметрами]
 
 Описание:
@@ -49,53 +48,55 @@ void PrintHelp() {
   - По умолчанию программа запускается в 4 потока.
   - Если выходной файл уже существует, он будет перезаписан.
 )" << std::endl;
-
 }
 
 // Создаем класс Parameters
-Parameters GenerateParameters(const int argc, char** argv) {
-  if (argc <= 1) {
-    PrintHelp();
-    exit(0);
-  }
-  if (argc <= 3 || argv[3][0] != '-') {
-    throw ValidationException("Invalid number of arguments");
-  }
-
-  const std::string path_to_input_file = argv[1];
-  const std::string path_to_output_file = argv[2];
-  std::vector<Filter> filters;
-
-  std::string name_of_filter;
-  int amount_of_filter_parameters = 0;
-  std::vector<std::string> parameters;
-  int parameter_index = 3;
-
-  if (argv[3][0] != '-') {
-    throw ValidationException("Invalid format ");
-  }
-  while (parameter_index < argc) {
-      if (argv[parameter_index][0] == '-') {
-        name_of_filter = argv[parameter_index];
-        for (int i = parameter_index + 1; i < argc; ++i) {
-          if (parameter_index == argc || parameter_index + 1 >= argc ) {break;}
-          if (argv[i][0] == '-') {break;}
-          ++amount_of_filter_parameters;
-          parameters.emplace_back(argv[i]);
-        }
-      }
-    if (!parameters.empty()) {
-      filters.emplace_back(name_of_filter, amount_of_filter_parameters, parameters);
-    } else {
-      if (!name_of_filter.empty()) {
-        filters.emplace_back(name_of_filter, amount_of_filter_parameters);
-      }
+Parameters GenerateParameters(const int argc, char **argv) {
+    if (argc <= 1) {
+        PrintHelp();
+        exit(0);
     }
-    name_of_filter = "";
-    amount_of_filter_parameters = 0;
-    parameters.clear();
-    ++parameter_index;
-  }
-  return {path_to_input_file, path_to_output_file, filters};
+    if (argc <= 3 || argv[3][0] != '-') {
+        throw ValidationException("Invalid number of arguments");
+    }
 
+    const std::string path_to_input_file = argv[1];
+    const std::string path_to_output_file = argv[2];
+    std::vector<Filter> filters;
+
+    std::string name_of_filter;
+    int amount_of_filter_parameters = 0;
+    std::vector<std::string> parameters;
+    int parameter_index = 3;
+
+    if (argv[3][0] != '-') {
+        throw ValidationException("Invalid format ");
+    }
+    while (parameter_index < argc) {
+        if (argv[parameter_index][0] == '-') {
+            name_of_filter = argv[parameter_index];
+            for (int i = parameter_index + 1; i < argc; ++i) {
+                if (parameter_index == argc || parameter_index + 1 >= argc) {
+                    break;
+                }
+                if (argv[i][0] == '-') {
+                    break;
+                }
+                ++amount_of_filter_parameters;
+                parameters.emplace_back(argv[i]);
+            }
+        }
+        if (!parameters.empty()) {
+            filters.emplace_back(name_of_filter, amount_of_filter_parameters, parameters);
+        } else {
+            if (!name_of_filter.empty()) {
+                filters.emplace_back(name_of_filter, amount_of_filter_parameters);
+            }
+        }
+        name_of_filter = "";
+        amount_of_filter_parameters = 0;
+        parameters.clear();
+        ++parameter_index;
+    }
+    return {path_to_input_file, path_to_output_file, filters};
 }
