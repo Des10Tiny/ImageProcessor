@@ -104,8 +104,8 @@ TEST(BMPProcessorTest, NegativeFilterTest) {
     BMPProcessor neg_processor("output_neg.bmp", "temp_neg.bmp", 6);
 
     // Получаем данные пикселей
-    const auto &orig_data = original_processor.get_image_data();
-    const auto &neg_data = neg_processor.get_image_data();
+    const auto &orig_data = original_processor.GetImageData();
+    const auto &neg_data = neg_processor.GetImageData();
 
     // Проверяем размеры
     ASSERT_EQ(orig_data.size(), neg_data.size());
@@ -191,8 +191,8 @@ TEST(BMPProcessorTest, SharpenFilterTest) {
     BMPProcessor original_processor("../images/lenna.bmp", "temp_orig.bmp", 6);
     BMPProcessor sharp_processor("output_sharp.bmp", "temp_sharp.bmp", 6);
 
-    const auto &orig_data = original_processor.get_image_data();
-    const auto &sharp_data = sharp_processor.get_image_data();
+    const auto &orig_data = original_processor.GetImageData();
+    const auto &sharp_data = sharp_processor.GetImageData();
 
     // Проверяем, что размеры изображений совпадают
     ASSERT_EQ(orig_data.size(), sharp_data.size());
