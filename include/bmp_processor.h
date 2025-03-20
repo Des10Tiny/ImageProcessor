@@ -2,42 +2,53 @@
 #define BMP_PROCESSOR_H
 
 #include "filter_base.h"
-#include <vector>
-#include <memory> // NOLINT
+#include <memory>  // NOLINT
 #include <string>
+#include <vector>
 
 class BMPProcessor {
 public:
-  static constexpr int BMP_HEADER_SIZE = 54;
-  static constexpr int BITS_PER_PIXEL = 24;
-  static constexpr int PIXEL_SIZE = BITS_PER_PIXEL / 8;
+    static constexpr int BmpHeaderSize = 54;
+    static constexpr int BitsPerPixel = 24;
+
+    static constexpr int Eighteen = 18;
+    static constexpr int TwentyTwo = 22;
+    static constexpr int ThirtyFour = 34;
+
+    static constexpr int PixelSize = BitsPerPixel / 8;
 
 private:
-  // Шаблон заголовка BMP
-  static const unsigned char BMP_HEADER_TEMPLATE[BMP_HEADER_SIZE];
+    // Шаблон заголовка BMP
+    static const unsigned char BMP_HEADER_TEMPLATE[BmpHeaderSize];
 
-  std::string input_path_;
-  std::string output_path_;
-  std::vector<std::unique_ptr<FilterBase>> filters_;
-  std::vector<uint8_t> image_data_;
-  int width_;
-  int height_;
-  int num_threads_;
+    std::string input_path_;
+    std::string output_path_;
+    std::vector<std::unique_ptr<FilterBase>> filters_;
+    std::vector<uint8_t> image_data_;
+    int width_;
+    int height_;
+    int num_threads_;
 
 public:
-  BMPProcessor(std::string input_path, std::string output_path, int num_threads);
-  ~BMPProcessor() = default;
+    BMPProcessor(std::string input_path, std::string output_path, int num_threads);
+    ~BMPProcessor() = default;
 
-  void add_filter(std::unique_ptr<FilterBase> filter);
-  void apply_filters();
-  void save() const;
+    void AddFilter(std::unique_ptr<FilterBase> filter);
+    void ApplyFilters();
+    void Save() const;
 
-  [[nodiscard]] std::vector<uint8_t> get_image_data() const { return image_data_; }
-  [[nodiscard]] int get_width() const { return width_; }
-  [[nodiscard]] int get_height() const { return height_; }
+    [[nodiscard]] std::vector<uint8_t> GetImageData() const {
+        return image_data_;
+    }
+    [[nodiscard]] int GetWidth() const {
+        return width_;
+    }
+    [[nodiscard]] int GetHeight() const {
+        return height_;
+    }
 
 private:
-  void load();
+    void Load();
 };
 
-#endif // BMP_PROCESSOR_H
+#endif  // BMP_PROCESSOR_H

@@ -1,6 +1,9 @@
 #ifndef CHANGE_THREADS_H
 #define CHANGE_THREADS_H
 
-void ChangeThreads(int &argc, char**& argv, int &NUMBER_OF_THREADS);
+void ChangeThreads(int &argc, char **&argv, int &number_of_threads);
 
-#endif //CHANGE_THREADS_H
+static constexpr int MaxThreads = 1000;
+static constexpr int System = 10;
+
+#endif  // CHANGE_THREADS_H
