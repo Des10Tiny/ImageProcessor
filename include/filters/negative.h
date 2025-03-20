@@ -13,10 +13,11 @@ class NegativeFilter final : public FilterBase {
                     int num_threads) const override;
 
 public:
+    static constexpr int MaxSizeOfPixel = 255;
     NegativeFilter();
 
-    void apply(std::vector<uint8_t> &image_data, int &width, int &height, int num_threads) const override;
-    [[nodiscard]] std::string get_name() const override;
+    void Apply(std::vector<uint8_t> &image_data, int &width, int &height, int num_threads) const override;
+    [[nodiscard]] std::string GetName() const override;
 };
 
 #endif  // NEGATIVE_H

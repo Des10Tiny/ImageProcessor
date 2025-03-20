@@ -10,7 +10,7 @@
 CropFilter::CropFilter(const int new_width, const int new_height) : new_width_(new_width), new_height_(new_height) {
 }
 
-void CropFilter::apply(std::vector<uint8_t> &image_data, int &width, int &height, const int num_threads) const {
+void CropFilter::Apply(std::vector<uint8_t> &image_data, int &width, int &height, const int num_threads) const {
     if (new_width_ <= 0 || new_height_ <= 0) {
         throw ValidationException("Crop dimensions must be positive");
     }
@@ -70,6 +70,6 @@ void CropFilter::RunThreads(std::vector<uint8_t> &image_data, std::vector<uint8_
     }
 }
 
-[[nodiscard]] std::string CropFilter::get_name() const {
+[[nodiscard]] std::string CropFilter::GetName() const {
     return "CropFilter";
 };

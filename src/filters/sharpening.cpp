@@ -6,7 +6,7 @@
 
 SharpeningFilter::SharpeningFilter() = default;
 
-void SharpeningFilter::apply(std::vector<uint8_t> &image_data, int &width, int &height, const int num_threads) const {
+void SharpeningFilter::Apply(std::vector<uint8_t> &image_data, int &width, int &height, const int num_threads) const {
     std::vector<uint8_t> sharpening_data(width * height * 3);
     RunThreads(image_data, sharpening_data, width, height, num_threads);
     image_data = std::move(sharpening_data);
@@ -45,7 +45,7 @@ void SharpeningFilter::ProcessPartition(const std::vector<uint8_t> &image_data, 
                         sum += image_data[neighbor_index] * kernel_value;
                     }
                 }
-                sharpening_data[index + c] = static_cast<uint8_t>(std::clamp(sum, 0, 255));
+                sharpening_data[index + c] = static_cast<uint8_t>(std::clamp(sum, 0, MaxSizeOfPixel));
             }
         }
     }
@@ -76,6 +76,6 @@ void SharpeningFilter::RunThreads(std::vector<uint8_t> &image_data, std::vector<
     }
 }
 
-[[nodiscard]] std::string SharpeningFilter::get_name() const {
+[[nodiscard]] std::string SharpeningFilter::GetName() const {
     return "Sharpening";
 }

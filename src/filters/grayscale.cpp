@@ -1,11 +1,10 @@
 #include "../../include/filters/grayscale.h"
-#include <iostream>
 #include <thread>
 #include <utility>  // NOLINT
 
 GrayscaleFilter::GrayscaleFilter() = default;
 
-void GrayscaleFilter::apply(std::vector<uint8_t> &image_data, int &width, int &height, const int num_threads) const {
+void GrayscaleFilter::Apply(std::vector<uint8_t> &image_data, int &width, int &height, const int num_threads) const {
     std::vector<uint8_t> grayscale_data(image_data.size());
     RunThreads(image_data, grayscale_data, width, height, num_threads);
     image_data = std::move(grayscale_data);
@@ -54,6 +53,6 @@ void GrayscaleFilter::RunThreads(std::vector<uint8_t> &image_data, std::vector<u
     }
 }
 
-[[nodiscard]] std::string GrayscaleFilter::get_name() const {
+[[nodiscard]] std::string GrayscaleFilter::GetName() const {
     return "Grayscale";
 }

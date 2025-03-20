@@ -3,12 +3,11 @@
 #include "../../include/validation_exception.h"
 
 #include <algorithm>  //NOLINT
-#include <iostream>
 #include <thread>
 #include <utility>  // NOLINT
 
-EdgeDetectionFilter::EdgeDetectionFilter(const float threshold) : threshold_(static_cast<int>(threshold * 255)) {
-    if (threshold > 255) {
+EdgeDetectionFilter::EdgeDetectionFilter(const float threshold) : threshold_(static_cast<int>(threshold * MaxSizeOfPixel)) {
+    if (threshold > MaxSizeOfPixel) {
         throw ValidationException("Threshold must be less than 255");
     }
     if (threshold < 0) {
@@ -16,11 +15,11 @@ EdgeDetectionFilter::EdgeDetectionFilter(const float threshold) : threshold_(sta
     }
 }
 
-void EdgeDetectionFilter::apply(std::vector<uint8_t> &image_data, int &width, int &height,
+void EdgeDetectionFilter::Apply(std::vector<uint8_t> &image_data, int &width, int &height,
                                 const int num_threads) const {
     const GrayscaleFilter grayscale_filter;
 
-    grayscale_filter.apply(image_data, width, height, num_threads);
+    grayscale_filter.Apply(image_data, width, height, num_threads);
 
     std::vector<uint8_t> edge_data(width * height * 3);
 
@@ -63,7 +62,7 @@ void EdgeDetectionFilter::ProcessPartition(const std::vector<uint8_t> &image_dat
                         sum += image_data[neighbor_index] * kernel_value;
                     }
                 }
-                edge_data[index + c] = sum > threshold_ ? 255 : 0;
+                edge_data[index + c] = sum > threshold_ ? MaxSizeOfPixel : 0;
             }
         }
     }
@@ -94,6 +93,6 @@ void EdgeDetectionFilter::RunThreads(std::vector<uint8_t> &image_data, std::vect
     }
 }
 
-[[nodiscard]] std::string EdgeDetectionFilter::get_name() const {
+[[nodiscard]] std::string EdgeDetectionFilter::GetName() const {
     return "EdgeDetection";
 }

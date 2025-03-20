@@ -20,10 +20,10 @@ int main(int argc, char **argv) {
 
         ValidationInputData(param, filters);
 
-        BMPProcessor processor(param.get_path_to_input_file(), param.get_path_to_output_file(), number_of_threads);
+        BMPProcessor processor(param.GetPathToInputFile(), param.GetPathToOutputFile(), number_of_threads);
 
-        for (const auto &filter : param.get_filters()) {
-            processor.AddFilter(create_filter(filter));
+        for (const auto &filter : param.GetFilters()) {
+            processor.AddFilter(CreateFilter(filter));
         }
 
         // Применяем все фильтры по очереди

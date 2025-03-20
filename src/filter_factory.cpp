@@ -8,10 +8,9 @@
 #include "../include/filters/sharpening.h"
 #include "../include/parameters.h"
 #include "../include/validation_exception.h"
-#include <iostream>
 
 // Добавляем другие фильтры по мере реализации
-std::unique_ptr<FilterBase> create_filter(const Filter &filter) {
+std::unique_ptr<FilterBase> CreateFilter(const Filter &filter) {
     if (filter.name_of_filter == "-crop") {
         return std::make_unique<CropFilter>(std::stoi(filter.parameters[0]), std::stoi(filter.parameters[1]));
     }

@@ -6,6 +6,6 @@
 #include <memory>  //NOLINT
 #include <set>
 
-std::unique_ptr<FilterBase> create_filter(const Filter &filter);
+std::unique_ptr<FilterBase> CreateFilter(const Filter &filter);
 
 #endif  // FILTER_FACTORY_H
