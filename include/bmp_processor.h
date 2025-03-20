@@ -8,13 +8,18 @@
 
 class BMPProcessor {
 public:
-    static constexpr int BMP_HEADER_SIZE = 54;
-    static constexpr int BITS_PER_PIXEL = 24;
-    static constexpr int PIXEL_SIZE = BITS_PER_PIXEL / 8;
+    static constexpr int BmpHeaderSize = 54;
+    static constexpr int BitsPerPixel = 24;
+
+    static constexpr int Eighteen = 18;
+    static constexpr int TwentyTwo = 22;
+    static constexpr int ThirtyFour = 34;
+
+    static constexpr int PixelSize = BitsPerPixel / 8;
 
 private:
     // Шаблон заголовка BMP
-    static const unsigned char BMP_HEADER_TEMPLATE[BMP_HEADER_SIZE];
+    static const unsigned char BMP_HEADER_TEMPLATE[BmpHeaderSize];
 
     std::string input_path_;
     std::string output_path_;
@@ -28,22 +33,22 @@ public:
     BMPProcessor(std::string input_path, std::string output_path, int num_threads);
     ~BMPProcessor() = default;
 
-    void add_filter(std::unique_ptr<FilterBase> filter);
-    void apply_filters();
-    void save() const;
+    void AddFilter(std::unique_ptr<FilterBase> filter);
+    void ApplyFilters();
+    void Save() const;
 
-    [[nodiscard]] std::vector<uint8_t> get_image_data() const {
+    [[nodiscard]] std::vector<uint8_t> GetImageData() const {
         return image_data_;
     }
-    [[nodiscard]] int get_width() const {
+    [[nodiscard]] int GetWidth() const {
         return width_;
     }
-    [[nodiscard]] int get_height() const {
+    [[nodiscard]] int GetHeight() const {
         return height_;
     }
 
 private:
-    void load();
+    void Load();
 };
 
 #endif  // BMP_PROCESSOR_H

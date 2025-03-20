@@ -4,6 +4,7 @@
 #include <set>  //NOLINT
 #include <string>
 #include <unordered_map>
+#include "../include/parameters.h" //NOLINT
 
 void ValidationInputData(const Parameters &parameters, const std::unordered_map<std::string, int> &isFilter);
 void ValidationAllSupportedFilters(const Parameters &parameters, const std::unordered_map<std::string, int> &isFilter);
