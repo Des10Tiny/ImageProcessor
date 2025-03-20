@@ -7,6 +7,7 @@
 #include "../include/filter_factory.h"
 #include "../include/validation_exception.h"
 #include "../include/filters/edge_detection.h"
+#include "../include/filters/gaussian_blur.h"
 #include <iostream>
 
 // Добавляем другие фильтры по мере реализации
@@ -30,6 +31,10 @@ std::unique_ptr<FilterBase> create_filter(const Filter& filter) {
 
   if (filter.name_of_filter == "-edge") {
     return std::make_unique<EdgeDetectionFilter>(std::stof(filter.parameters[0]));
+  }
+
+  if (filter.name_of_filter == "-blur") {
+    return std::make_unique<GaussianBlurFilter>(std::stof(filter.parameters[0]));
   }
 
   // Добавить другие фильтры здесь
