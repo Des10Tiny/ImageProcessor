@@ -17,18 +17,18 @@ struct Filter {
 };
 
 class Parameters {
-    const std::string path_to_input_file;
-    const std::string path_to_output_file;
-    const std::vector<Filter> filters;
+    const std::string path_to_input_file_;
+    const std::string path_to_output_file_;
+    const std::vector<Filter> filters_;
 
 public:
     Parameters(std::string path_to_input_file, std::string path_to_output_file, const std::vector<Filter> &filters);
 
     ~Parameters() = default;
 
-    [[nodiscard]] std::string get_path_to_input_file() const;
-    [[nodiscard]] std::string get_path_to_output_file() const;
-    [[nodiscard]] std::vector<Filter> get_filters() const;
+    [[nodiscard]] std::string GetPathToInputFile() const;
+    [[nodiscard]] std::string GetPathToOutputFile() const;
+    [[nodiscard]] std::vector<Filter> GetFilters() const;
 };
 
 #endif  // PATH_H

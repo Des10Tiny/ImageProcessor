@@ -8,6 +8,7 @@
 
 class EdgeDetectionFilter final : public FilterBase {
     int threshold_;
+    static constexpr int MaxSizeOfPixel = 255;
     void ProcessPartition(const std::vector<uint8_t> &image_data, std::vector<uint8_t> &edge_data, int width,
                           int height, int start_y, int end_y) const override;
     void RunThreads(std::vector<uint8_t> &image_data, std::vector<uint8_t> &edge_data, int width, int height,
@@ -16,8 +17,8 @@ class EdgeDetectionFilter final : public FilterBase {
 public:
     explicit EdgeDetectionFilter(float threshold);
 
-    void apply(std::vector<uint8_t> &image_data, int &width, int &height, int num_threads) const override;
-    [[nodiscard]] std::string get_name() const override;
+    void Apply(std::vector<uint8_t> &image_data, int &width, int &height, int num_threads) const override;
+    [[nodiscard]] std::string GetName() const override;
 };
 
 #endif  // EDGE_DETECTION_H

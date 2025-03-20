@@ -9,7 +9,7 @@ GaussianBlurFilter::GaussianBlurFilter(const float sigma) : sigma_(sigma), horiz
     if (sigma_ < 0) {
         throw ValidationException("Sigma must be non-negative");
     }
-    if (sigma_ > 100) {
+    if (sigma_ > MaxForWarning) {
         std::cerr << "Sigma greater than 100 can cause a serious load on your PC" << std::endl;
         std::cerr << "Increase the number of threads or get ready to wait" << std::endl;
     }
@@ -18,13 +18,13 @@ GaussianBlurFilter::GaussianBlurFilter(const float sigma) : sigma_(sigma), horiz
     kernel_ = CreateGaussianKernel1D(sigma_, kernel_radius_);
 }
 
-std::string GaussianBlurFilter::get_name() const {
+std::string GaussianBlurFilter::GetName() const {
     return "GaussianBlur";
 }
 
 // Генерация одномерного ядра Гаусса
 std::vector<float> GaussianBlurFilter::CreateGaussianKernel1D(const float sigma, int &radius) {
-    radius = static_cast<int>(std::ceil(3.0f * sigma));
+    radius = static_cast<int>(std::ceil(MinRadius * sigma));
     std::vector<float> kernel(2 * radius + 1);
     float sum = 0.0f;
     const float sigma2 = sigma * sigma;
@@ -70,8 +70,8 @@ void GaussianBlurFilter::ProcessPartition(const std::vector<uint8_t> &image_data
 
     for (int y = start_y; y < end_y; ++y) {
         for (int x = 0; x < width; ++x) {
-            constexpr int channels = 3;
-            const int dst_index = (y * width + x) * channels;
+            constexpr int Channels = 3;
+            const int dst_index = (y * width + x) * Channels;
 
             float sum_b = 0.0f;
             float sum_g = 0.0f;
@@ -86,7 +86,7 @@ void GaussianBlurFilter::ProcessPartition(const std::vector<uint8_t> &image_data
                     int nx = x + k;
                     // "clamp" по границам
                     nx = std::max(0, std::min(nx, width - 1));
-                    const int neighbor_index = (y * width + nx) * channels;
+                    const int neighbor_index = (y * width + nx) * Channels;
                     sum_b += static_cast<float>(image_data[neighbor_index + 0]) * weight;
                     sum_g += static_cast<float>(image_data[neighbor_index + 1]) * weight;
                     sum_r += static_cast<float>(image_data[neighbor_index + 2]) * weight;
@@ -94,7 +94,7 @@ void GaussianBlurFilter::ProcessPartition(const std::vector<uint8_t> &image_data
                     // Вертикальное смещение по Y
                     int ny = y + k;
                     ny = std::max(0, std::min(ny, height - 1));
-                    const int neighbor_index = (ny * width + x) * channels;
+                    const int neighbor_index = (ny * width + x) * Channels;
                     sum_b += static_cast<float>(image_data[neighbor_index + 0]) * weight;
                     sum_g += static_cast<float>(image_data[neighbor_index + 1]) * weight;
                     sum_r += static_cast<float>(image_data[neighbor_index + 2]) * weight;
@@ -102,14 +102,14 @@ void GaussianBlurFilter::ProcessPartition(const std::vector<uint8_t> &image_data
             }
 
             // Записываем результат, заодно clamp к диапазону [0..255]
-            gaussian_data[dst_index + 0] = static_cast<uint8_t>(std::clamp(sum_b, 0.0f, 255.0f));
-            gaussian_data[dst_index + 1] = static_cast<uint8_t>(std::clamp(sum_g, 0.0f, 255.0f));
-            gaussian_data[dst_index + 2] = static_cast<uint8_t>(std::clamp(sum_r, 0.0f, 255.0f));
+            gaussian_data[dst_index + 0] = static_cast<uint8_t>(std::clamp(sum_b, 0.0f, MaxSizeOfPixel));
+            gaussian_data[dst_index + 1] = static_cast<uint8_t>(std::clamp(sum_g, 0.0f, MaxSizeOfPixel));
+            gaussian_data[dst_index + 2] = static_cast<uint8_t>(std::clamp(sum_r, 0.0f, MaxSizeOfPixel));
         }
     }
 }
 
-void GaussianBlurFilter::apply(std::vector<uint8_t> &image_data, int &width, int &height, const int num_threads) const {
+void GaussianBlurFilter::Apply(std::vector<uint8_t> &image_data, int &width, int &height, const int num_threads) const {
     std::vector<uint8_t> gaussian_data(width * height * 3);
 
     // Первый проход: горизонтальное размытие

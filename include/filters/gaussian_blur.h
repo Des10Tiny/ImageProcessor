@@ -8,6 +8,10 @@
 
 class GaussianBlurFilter final : public FilterBase {
 public:
+    static constexpr int MaxForWarning = 100;
+    static constexpr float MaxSizeOfPixel = 255.0f;
+    static constexpr float MinRadius = 3.0f;
+
     explicit GaussianBlurFilter(float sigma);
 
     void ProcessPartition(const std::vector<uint8_t> &image_data, std::vector<uint8_t> &gaussian_data, int width,
@@ -17,9 +21,9 @@ public:
                     int num_threads) const override;
 
     // Метод apply (обязателен по интерфейсу FilterBase)
-    void apply(std::vector<uint8_t> &image_data, int &width, int &height, int num_threads) const override;
+    void Apply(std::vector<uint8_t> &image_data, int &width, int &height, int num_threads) const override;
 
-    [[nodiscard]] std::string get_name() const override;
+    [[nodiscard]] std::string GetName() const override;
 
 private:
     float sigma_;

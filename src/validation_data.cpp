@@ -2,45 +2,46 @@
 #include "../include/parameters.h"
 #include "../include/validation_exception.h"
 #include <filesystem>
-#include <stdexcept>
+#include <stdexcept>  //NOLINT
 
 void ValidateInOutPaths(const Parameters &parameters) {
     // Проверка расширения входного файла
-    if (std::filesystem::path(parameters.get_path_to_input_file()).extension() != ".bmp") {
+    if (std::filesystem::path(parameters.GetPathToInputFile()).extension() != ".bmp") {
         const auto extension =
-            static_cast<std::string>(std::filesystem::path(parameters.get_path_to_input_file()).extension());
+            static_cast<std::string>(std::filesystem::path(parameters.GetPathToInputFile()).extension());
         const auto error = "Input file must have extension .bmp not <" + extension + ">";
         throw ValidationException(error);
     }
 
     // Проверка расширения выходного файла
-    if (std::filesystem::path(parameters.get_path_to_output_file()).extension() != ".bmp") {
+    if (std::filesystem::path(parameters.GetPathToOutputFile()).extension() != ".bmp") {
         const auto extension =
-            static_cast<std::string>(std::filesystem::path(parameters.get_path_to_output_file()).extension());
+            static_cast<std::string>(std::filesystem::path(parameters.GetPathToOutputFile()).extension());
         const auto error = "Output file must have extension .bmp not <" + extension + ">";
         throw ValidationException(error);
     }
 
     // Проверка по локальному и абсолютному пути
-    if (const std::filesystem::path absolutePath = std::filesystem::absolute(parameters.get_path_to_input_file());
-        !std::filesystem::exists(parameters.get_path_to_input_file()) || !exists(absolutePath)) {
-        const auto error = "Input file " + parameters.get_path_to_input_file() + " does not exist.";
+    if (const std::filesystem::path absolute_path = std::filesystem::absolute(parameters.GetPathToInputFile());
+        !std::filesystem::exists(parameters.GetPathToInputFile()) || !exists(absolute_path)) {
+        const auto error = "Input file " + parameters.GetPathToInputFile() + " does not exist.";
         throw ValidationException(error);
     }
 }
 
 void ValidationAllParametersInFilter(const Parameters &parameters,
-                                     const std::unordered_map<std::string, int> &isFilter) {
+                                     const std::unordered_map<std::string, int> &is_filter) {
 }
 
-void ValidationAllSupportedFilters(const Parameters &parameters, const std::unordered_map<std::string, int> &isFilter) {
-    if (parameters.get_filters().empty()) {
+void ValidationAllSupportedFilters(const Parameters &parameters,
+                                   const std::unordered_map<std::string, int> &is_filter) {
+    if (parameters.GetFilters().empty()) {
         throw ValidationException("No filters were provided.");
     }
 
-    for (auto &param : parameters.get_filters()) {
-        auto it = isFilter.find(param.name_of_filter);
-        if (it == isFilter.end()) {
+    for (auto &param : parameters.GetFilters()) {
+        auto it = is_filter.find(param.name_of_filter);
+        if (it == is_filter.end()) {
             throw ValidationException("Filter '" + param.name_of_filter + "' not found.");
         }
 
@@ -54,7 +55,7 @@ void ValidationAllSupportedFilters(const Parameters &parameters, const std::unor
 
 // Валидация пути входного файла, расширения, названия фильтров переданных в
 // isFilter
-void ValidationInputData(const Parameters &parameters, const std::unordered_map<std::string, int> &isFilter) {
+void ValidationInputData(const Parameters &parameters, const std::unordered_map<std::string, int> &is_filter) {
     ValidateInOutPaths(parameters);
-    ValidationAllSupportedFilters(parameters, isFilter);
+    ValidationAllSupportedFilters(parameters, is_filter);
 }

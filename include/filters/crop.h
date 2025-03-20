@@ -18,8 +18,8 @@ class CropFilter final : public FilterBase {
 public:
     CropFilter(int new_width, int new_height);
 
-    void apply(std::vector<uint8_t> &image_data, int &width, int &height, int num_threads) const override;
-    [[nodiscard]] std::string get_name() const override;
+    void Apply(std::vector<uint8_t> &image_data, int &width, int &height, int num_threads) const override;
+    [[nodiscard]] std::string GetName() const override;
 };
 
 #endif  // CROP_FILTER_H

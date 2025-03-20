@@ -4,14 +4,14 @@
 #include <iostream>
 #include <string>
 
-void ChangeThreads(int &argc, char **&argv, int &NUMBER_OF_THREADS) {
+void ChangeThreads(int &argc, char **&argv, int &number_of_threads) {
     for (int i = 1; i + 1 < argc; ++i) {
         if (strcmp(argv[i], "-threads") == 0) {
-            char *end_ptr;
+            char *end_ptr = nullptr;
 
-            NUMBER_OF_THREADS = static_cast<int>(std::strtol(argv[i + 1], &end_ptr, 10));
+            number_of_threads = static_cast<int>(std::strtol(argv[i + 1], &end_ptr, System));
 
-            if (*end_ptr != '\0' || NUMBER_OF_THREADS < 1 || NUMBER_OF_THREADS > 1000) {
+            if (*end_ptr != '\0' || number_of_threads < 1 || number_of_threads > MaxThreads) {
                 throw ValidationException("Invalid thread value: " + std::string(argv[i + 1]));
             }
 
@@ -23,6 +23,6 @@ void ChangeThreads(int &argc, char **&argv, int &NUMBER_OF_THREADS) {
             break;
         }
     }
-    std::cout << "Current number of threads - " << NUMBER_OF_THREADS << std::endl;
+    std::cout << "Current number of threads - " << number_of_threads << std::endl;
     std::cout << "Start of photo processing with preset filters..." << std::endl;
 }

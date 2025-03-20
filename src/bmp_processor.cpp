@@ -25,7 +25,7 @@ void BMPProcessor::AddFilter(std::unique_ptr<FilterBase> filter) {
 void BMPProcessor::ApplyFilters() {
     // Каждый фильтр сам управляет многопоточностью в своём методе apply()
     for (const auto &filter : filters_) {
-        filter->apply(image_data_, width_, height_, num_threads_);
+        filter->Apply(image_data_, width_, height_, num_threads_);
     }
 }
 

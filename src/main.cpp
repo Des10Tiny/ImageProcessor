@@ -8,8 +8,6 @@
 #include <iostream>
 #include <set>  // NOLINT
 
-
-
 int main(int argc, char **argv) {
     std::unordered_map<std::string, int> filters = {{"-crop", 2},  {"-gs", 0},   {"-neg", 0},
                                                     {"-sharp", 0}, {"-edge", 1}, {"-blur", 1}};
@@ -20,10 +18,10 @@ int main(int argc, char **argv) {
 
         ValidationInputData(param, filters);
 
-        BMPProcessor processor(param.get_path_to_input_file(), param.get_path_to_output_file(), number_of_threads);
+        BMPProcessor processor(param.GetPathToInputFile(), param.GetPathToOutputFile(), number_of_threads);
 
-        for (const auto &filter : param.get_filters()) {
-            processor.AddFilter(create_filter(filter));
+        for (const auto &filter : param.GetFilters()) {
+            processor.AddFilter(CreateFilter(filter));
         }
 
         // Применяем все фильтры по очереди
