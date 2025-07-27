@@ -1,0 +1,28 @@
+name: Tests
+on:
+  workflow_call:
+    inputs:
+      build-path:
+        required: true
+        type: string
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: ${{ inputs.build-path }}
+
+      - name: Restore execute permissions on test binaries
+        run: |
+          chmod +x ${{ inputs.build-path }}/*
+
+      - name: Run tests
+        run: |
+          cd ${{ inputs.build-path }}
+          ctest --output-on-failure
