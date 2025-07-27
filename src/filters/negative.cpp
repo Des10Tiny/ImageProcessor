@@ -12,8 +12,8 @@ void NegativeFilter::Apply(std::vector<uint8_t> &image_data, int &width, int &he
 }
 
 void NegativeFilter::ProcessPartition(const std::vector<uint8_t> &image_data, std::vector<uint8_t> &negative_data,
-                                      const int height, const int width, int start_y, int end_y) const {
-    for (int y = 0; y < height; ++y) {
+                                      const int width, const int height, int start_y, int end_y) const {
+    for (int y = start_y; y < end_y; ++y) {
         for (int x = 0; x < width; ++x) {
             const int index = (y * width + x) * 3;
 

@@ -6,6 +6,7 @@
 #include "../include/filters/grayscale.h"
 #include "../include/filters/negative.h"
 #include "../include/filters/sharpening.h"
+#include "../include/filters/smoothing.h"
 #include "../include/parameters.h"
 #include "../include/validation_exception.h"
 
@@ -35,7 +36,7 @@ std::unique_ptr<FilterBase> CreateFilter(const Filter &filter) {
     }
 
     if (filter.name_of_filter == "-smooth") {
-        return std::make_unique<GaussianBlurFilter>(std::stoi(filter.parameters[0]));
+        return std::make_unique<SmoothingFilter>(std::stoi(filter.parameters[0]));
     }
 
     // Добавить другие фильтры здесь
