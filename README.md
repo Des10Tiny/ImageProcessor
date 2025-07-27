@@ -1,5 +1,7 @@
 # Image Processor
 
+English | [Russian](./README_ru.md)
+
 This project is a command-line application that applies various filters to images, similar to those found in popular graphic editors.
 
 ## Supported Image Format
