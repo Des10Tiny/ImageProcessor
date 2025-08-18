@@ -15,3 +15,4 @@ ImageProcessor
 !tests/images/flag.bmp
 test_script/
 build-windows/
+.cache/

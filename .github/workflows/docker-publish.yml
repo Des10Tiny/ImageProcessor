@@ -33,4 +33,4 @@ jobs:
           push: true
           tags: |
             ghcr.io/des10tiny/photo-converter:latest
-            ghcr.io/des10tiny/photo-converter:${{ github.sha }}
+            ghcr.io/des10tiny/photo-converter:ubuntu_env
