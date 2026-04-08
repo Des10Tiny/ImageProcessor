@@ -1,28 +1,29 @@
 name: Tests
+
 on:
   workflow_call:
-    inputs:
-      build-path:
-        required: true
-        type: string
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v6
         with:
-          name: build-output
-          path: ${{ inputs.build-path }}
+          name: test-binaries-${{ matrix.os }}
+          path: build_debug/
 
-      - name: Restore execute permissions on test binaries
-        run: |
-          chmod +x ${{ inputs.build-path }}/*
+      - name: Make binaries executable (Unix only)
+        if: runner.os != 'Windows'
+        run: chmod -R +x build_debug/
 
-      - name: Run tests
-        run: |
-          cd ${{ inputs.build-path }}
-          ctest --output-on-failure
+      - name: Run All Tests via CTest
+        working-directory: build_debug
+        run: ctest --output-on-failure -C Debug

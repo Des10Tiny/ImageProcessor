@@ -2,7 +2,7 @@
 #define PATH_H
 
 #include <string>
-#include <utility>  //NOLINT
+#include <utility>
 #include <vector>
 
 struct Filter {

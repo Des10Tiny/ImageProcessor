@@ -1,7 +1,8 @@
 #ifndef EDGE_DETECTION_H
 #define EDGE_DETECTION_H
 
-#include "../filter_base.h"
+#include "filter_base.hpp"
+
 #include <cstdint>
 #include <string>
 #include <vector>

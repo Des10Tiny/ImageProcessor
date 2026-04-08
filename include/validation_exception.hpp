@@ -3,7 +3,7 @@
 
 #include <exception>
 #include <string>
-#include <utility>  //NOLINT
+#include <utility>
 
 /**
  * @brief Класс ValidationException

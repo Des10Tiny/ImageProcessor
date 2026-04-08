@@ -1,7 +1,8 @@
-#include "../../include/filters/gaussian_blur.h"
-#include "../../include/validation_exception.h"
-#include <algorithm>  // NOLINT
-#include <cmath>      // NOLINT
+#include "validation_exception.hpp"
+#include "filters/gaussian_blur.hpp"
+
+#include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <thread>
 

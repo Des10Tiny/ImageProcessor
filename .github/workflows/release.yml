@@ -1,0 +1,55 @@
+name: Release Module
+
+on:
+  workflow_call:
+
+jobs:
+  build-release:
+    name: Build Release on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure CMake (Release)
+        run: cmake -B build_release -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build Project (Release)
+        run: cmake --build build_release --config Release --parallel
+
+      - name: Zip binary (Windows)
+        if: runner.os == 'Windows'
+        run: Compress-Archive -Path build_release\Release\ImageProcessor.exe -DestinationPath photo-converter-${{ matrix.os }}.zip
+
+      - name: Tar binary (Unix)
+        if: runner.os != 'Windows'
+        run: tar -czvf photo-converter-${{ matrix.os }}.tar.gz -C build_release ImageProcessor
+
+      - name: Upload Release Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts-${{ matrix.os }}
+          path: photo-converter-*.*
+          retention-days: 1
+
+  publish-release:
+    needs: build-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: release-artifacts-*
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*
+          generate_release_notes: true

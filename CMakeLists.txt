@@ -1,40 +1,35 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.5)
 project(ImageProcessor)
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address ")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread -fno-omit-frame-pointer")
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(image_processor
-        include/parameters.h
-        include/filters/crop.h
-        include/filter_base.h
-        include/filter_factory.h
-        include/bmp_processor.h
-        include/validation_data.h
-        include/generate_start_setup.h
-        include/filters/grayscale.h
-        include/filters/negative.h
-        include/validation_exception.h
-        include/filters/sharpening.h
-        include/change_threads.h
-        include/filters/edge_detection.h
-        include/filters/gaussian_blur.h
-        include/filters/smoothing.h
-        src/main.cpp
-        src/parameters.cpp
-        src/filters/crop.cpp
-        src/bmp_processor.cpp
-        src/filter_factory.cpp
-        src/validation_data.cpp
-        src/generate_start_setup.cpp
-        src/filters/grayscale.cpp
-        src/filters/negative.cpp
-        src/filters/sharpening.cpp
-        src/change_threads.cpp
-        src/filters/edge_detection.cpp
-        src/filters/gaussian_blur.cpp
-        src/filters/smoothing.cpp
-)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+if(CMAKE_EXPORT_COMPILE_COMMANDS AND UNIX)
+        execute_process(
+                COMMAND ${CMAKE_COMMAND} -E create_symlink
+                ${CMAKE_BINARY_DIR}/compile_commands.json
+                ${CMAKE_SOURCE_DIR}/compile_commands.json
+        )
+endif()
+
+add_subdirectory(src)
+
+option(BUILD_TESTS "Build all unit tests" ON)
+
+if(CMAKE_BUILD_TYPE MATCHES "Release")
+        set(BUILD_TESTS OFF)
+        include(CheckIPOSupported)
+        check_ipo_supported(RESULT ipo_supported OUTPUT error)
+
+        if(ipo_supported)
+                set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+        endif()
+
+endif()
+
+if(BUILD_TESTS)
+        enable_testing()
+        add_subdirectory(tests)
+endif()
 

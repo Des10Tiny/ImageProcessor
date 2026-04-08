@@ -1,4 +1,5 @@
-#include "../../include/filters/smoothing.h"
+#include "filters/smoothing.hpp"
+
 #include <algorithm>
 #include <thread>
 #include <vector>

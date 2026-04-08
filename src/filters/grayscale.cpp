@@ -1,6 +1,7 @@
-#include "../../include/filters/grayscale.h"
+#include "filters/grayscale.hpp"
+
 #include <thread>
-#include <utility>  // NOLINT
+#include <utility>
 
 GrayscaleFilter::GrayscaleFilter() = default;
 
@@ -11,7 +12,8 @@ void GrayscaleFilter::Apply(std::vector<uint8_t> &image_data, int &width, int &h
 }
 
 void GrayscaleFilter::ProcessPartition(const std::vector<uint8_t> &image_data, std::vector<uint8_t> &grayscale_data,
-                                       const int width, int height, const int start_y, const int end_y) const {
+                                       const int width, [[maybe_unused]] int height, const int start_y,
+                                       const int end_y) const {
 
     for (int y = start_y; y < end_y; ++y) {
         for (int x = 0; x < width; ++x) {

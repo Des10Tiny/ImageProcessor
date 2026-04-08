@@ -1,8 +1,8 @@
-#include "../../include/filters/sharpening.h"
-#include <algorithm>  //NOLINT
-#include <iostream>
+#include "filters/sharpening.hpp"
+
+#include <algorithm>
 #include <thread>
-#include <utility>  // NOLINT
+#include <utility>
 
 SharpeningFilter::SharpeningFilter() = default;
 

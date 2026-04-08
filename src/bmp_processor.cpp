@@ -1,10 +1,10 @@
-#include "../include/bmp_processor.h"
-#include "../include/validation_exception.h"
-#include <algorithm>  // NOLINT
+#include "bmp_processor.hpp"
+#include "validation_exception.hpp"
+
+#include <algorithm>
 #include <cstring>
-#include <fstream>  // NOLINT
-#include <stdexcept>
-#include <utility>  // NOLINT
+#include <fstream>
+#include <utility>
 
 const unsigned char BMPProcessor::BMP_HEADER_TEMPLATE[BmpHeaderSize] = {
     'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 24, 0};

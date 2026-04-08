@@ -16,3 +16,4 @@ ImageProcessor
 test_script/
 build-windows/
 .cache/
+compile_commands.json

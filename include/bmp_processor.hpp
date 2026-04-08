@@ -1,8 +1,9 @@
 #ifndef BMP_PROCESSOR_H
 #define BMP_PROCESSOR_H
 
-#include "filter_base.h"
-#include <memory>  // NOLINT
+#include "filter_base.hpp"
+
+#include <memory>
 #include <string>
 #include <vector>
 

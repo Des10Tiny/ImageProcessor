@@ -1,7 +1,8 @@
 #ifndef GAUSSIAN_BLUR_FILTER_H
 #define GAUSSIAN_BLUR_FILTER_H
 
-#include "../filter_base.h"
+#include "filter_base.hpp"
+
 #include <cstdint>
 #include <string>
 #include <vector>

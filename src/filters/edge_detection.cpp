@@ -1,10 +1,9 @@
-#include "../../include/filters/edge_detection.h"
-#include "../../include/filters/grayscale.h"
-#include "../../include/validation_exception.h"
+#include "validation_exception.hpp"
+#include "filters/edge_detection.hpp"
+#include "filters/grayscale.hpp"
 
-#include <algorithm>  //NOLINT
 #include <thread>
-#include <utility>  // NOLINT
+#include <utility>
 
 EdgeDetectionFilter::EdgeDetectionFilter(const float threshold)
     : threshold_(static_cast<int>(threshold * MaxSizeOfPixel)) {

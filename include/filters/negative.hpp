@@ -1,7 +1,8 @@
 #ifndef NEGATIVE_H
 #define NEGATIVE_H
 
-#include "../filter_base.h"
+#include "filter_base.hpp"
+
 #include <cstdint>
 #include <string>
 #include <vector>

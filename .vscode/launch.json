@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run main",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/tests/",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "cmake_build"
+        },
+        {
+            "name": "Debug Tests",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/tests/ImageProcessorTests",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "cmake_build"
+        },
+    ]
+}

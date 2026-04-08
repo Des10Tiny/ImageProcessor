@@ -1,6 +1,6 @@
-#include <utility>
+#include "parameters.hpp"
 
-#include "../include/parameters.h"
+#include <utility>
 
 Parameters::Parameters(std::string path_to_input_file, std::string path_to_output_file,
                        const std::vector<Filter> &filters)

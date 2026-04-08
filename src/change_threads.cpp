@@ -1,5 +1,6 @@
-#include "../include/change_threads.h"
-#include "../include/validation_exception.h"
+#include "change_threads.hpp"
+#include "validation_exception.hpp"
+
 #include <cstring>
 #include <iostream>
 #include <string>

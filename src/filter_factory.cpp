@@ -1,14 +1,15 @@
-#include "../include/filter_factory.h"
-#include "../include/filter_base.h"
-#include "../include/filters/crop.h"
-#include "../include/filters/edge_detection.h"
-#include "../include/filters/gaussian_blur.h"
-#include "../include/filters/grayscale.h"
-#include "../include/filters/negative.h"
-#include "../include/filters/sharpening.h"
-#include "../include/filters/smoothing.h"
-#include "../include/parameters.h"
-#include "../include/validation_exception.h"
+#include "parameters.hpp"
+#include "validation_exception.hpp"
+#include "filter_factory.hpp"
+#include "filter_base.hpp"
+
+#include "filters/crop.hpp"
+#include "filters/edge_detection.hpp"
+#include "filters/gaussian_blur.hpp"
+#include "filters/grayscale.hpp"
+#include "filters/negative.hpp"
+#include "filters/sharpening.hpp"
+#include "filters/smoothing.hpp"
 
 // Добавляем другие фильтры по мере реализации
 std::unique_ptr<FilterBase> CreateFilter(const Filter &filter) {

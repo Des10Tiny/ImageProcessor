@@ -1,10 +1,10 @@
-#include "../../include/filters/crop.h"
-#include "../../include/validation_exception.h"
+#include "validation_exception.hpp"
+#include "filters/crop.hpp"
+
 #include <algorithm>
 #include <iostream>
-#include <stdexcept>
 #include <thread>
-#include <utility>  // NOLINT
+#include <utility>
 #include <vector>
 
 CropFilter::CropFilter(const int new_width, const int new_height) : new_width_(new_width), new_height_(new_height) {
