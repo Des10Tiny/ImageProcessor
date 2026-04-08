@@ -1,5 +1,4 @@
-#ifndef GAUSSIAN_BLUR_FILTER_H
-#define GAUSSIAN_BLUR_FILTER_H
+#pragma once
 
 #include "filter_base.hpp"
 
@@ -38,5 +37,3 @@ private:
     // Генерация ядра
     static std::vector<float> CreateGaussianKernel1D(float sigma, int &radius);
 };
-
-#endif  // GAUSSIAN_BLUR_FILTER_H

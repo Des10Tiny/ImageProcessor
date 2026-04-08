@@ -1,5 +1,4 @@
-#ifndef GRAYSCALE_H
-#define GRAYSCALE_H
+#pragma once
 
 #include "filter_base.hpp"
 
@@ -20,5 +19,3 @@ public:
     void Apply(std::vector<uint8_t> &image_data, int &width, int &height, int num_threads) const override;
     [[nodiscard]] std::string GetName() const override;
 };
-
-#endif  // GRAYSCALE_H

@@ -1,5 +1,4 @@
-#ifndef EDGE_DETECTION_H
-#define EDGE_DETECTION_H
+#pragma once
 
 #include "filter_base.hpp"
 
@@ -21,5 +20,3 @@ public:
     void Apply(std::vector<uint8_t> &image_data, int &width, int &height, int num_threads) const override;
     [[nodiscard]] std::string GetName() const override;
 };
-
-#endif  // EDGE_DETECTION_H

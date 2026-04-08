@@ -1,5 +1,4 @@
-#ifndef BMP_PROCESSOR_H
-#define BMP_PROCESSOR_H
+#pragma once
 
 #include "filter_base.hpp"
 
@@ -51,5 +50,3 @@ public:
 private:
     void Load();
 };
-
-#endif  // BMP_PROCESSOR_H

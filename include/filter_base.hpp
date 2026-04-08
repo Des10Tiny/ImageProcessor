@@ -1,5 +1,4 @@
-#ifndef FILTER_BASE_H
-#define FILTER_BASE_H
+#pragma once
 
 #include <cstdint>
 #include <string>
@@ -25,5 +24,3 @@ public:
         ProcessPartition(image_data, result_data, width, height, start_y, end_y);
     }
 };
-
-#endif  // FILTER_BASE_H

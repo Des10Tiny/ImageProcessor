@@ -1,5 +1,4 @@
-#ifndef PATH_H
-#define PATH_H
+#pragma once
 
 #include <string>
 #include <utility>
@@ -30,5 +29,3 @@ public:
     [[nodiscard]] std::string GetPathToOutputFile() const;
     [[nodiscard]] std::vector<Filter> GetFilters() const;
 };
-
-#endif  // PATH_H

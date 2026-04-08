@@ -1,5 +1,4 @@
-#ifndef VALIDATION_EXCEPTION_H
-#define VALIDATION_EXCEPTION_H
+#pragma once
 
 #include <exception>
 #include <string>
@@ -34,5 +33,3 @@ public:
 private:
     std::string message_;
 };
-
-#endif  // VALIDATION_EXCEPTION_H

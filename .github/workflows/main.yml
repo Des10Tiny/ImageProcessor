@@ -25,7 +25,7 @@ jobs:
         run: cmake --build build_debug --config Debug --parallel
 
       - name: Upload Test Artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: test-binaries-${{ matrix.os }}
           path: build_debug/

@@ -1,5 +1,4 @@
-#ifndef SHARPENING_H
-#define SHARPENING_H
+#pragma once
 
 #include "filter_base.hpp"
 
@@ -22,5 +21,3 @@ public:
     void Apply(std::vector<uint8_t> &image_data, int &width, int &height, int num_threads) const override;
     [[nodiscard]] std::string GetName() const override;
 };
-
-#endif  // SHARPENING_H

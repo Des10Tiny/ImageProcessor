@@ -1,6 +1,4 @@
-#ifndef CROP_FILTER_H
-#define CROP_FILTER_H
-
+#pragma once
 #include "filter_base.hpp"
 
 #include <cstdint>
@@ -22,5 +20,3 @@ public:
     void Apply(std::vector<uint8_t> &image_data, int &width, int &height, int num_threads) const override;
     [[nodiscard]] std::string GetName() const override;
 };
-
-#endif  // CROP_FILTER_H
