@@ -19,6 +19,7 @@ option(BUILD_TESTS "Build all unit tests" ON)
 
 if(CMAKE_BUILD_TYPE MATCHES "Release")
         set(BUILD_TESTS OFF)
+        cmake_policy(SET CMP0069 NEW)
         include(CheckIPOSupported)
         check_ipo_supported(RESULT ipo_supported OUTPUT error)
 

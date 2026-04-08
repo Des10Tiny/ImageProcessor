@@ -14,8 +14,8 @@ RUN mkdir -p build && cd build && \
 FROM ubuntu:24.04
 WORKDIR /app
 
-COPY --from=builder /src/build/image_processor .
+COPY --from=builder /src/build/ImageProcessor .
 
-RUN chmod +x ./image_processor
+RUN chmod +x ./ImageProcessor
 
-ENTRYPOINT ["./image_processor"]
+ENTRYPOINT ["./ImageProcessor"]
