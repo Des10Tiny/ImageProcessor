@@ -9,7 +9,7 @@
 // Вывод справки
 void PrintHelp() {
     std::cerr << R"(
-Использование: image_processor <input_file> <output_file> [фильтры с параметрами]
+Использование: ImageProcessor <input_file> <output_file> [фильтры с параметрами]
 
 Описание:
   Программа обрабатывает изображения, применяя указанные фильтры.
@@ -38,13 +38,13 @@ void PrintHelp() {
 
 Примеры:
   1. Обрезать изображение и преобразовать в оттенки серого:
-     ./image_processor input.bmp output.bmp -crop 800 600 -gs
+     ./ImageProcessor input.bmp output.bmp -crop 800 600 -gs
 
   2. Размыть изображение и выделить границы:
-     ./image_processor input.bmp output.bmp -blur 0.5 -edge 10
+     ./ImageProcessor input.bmp output.bmp -blur 0.5 -edge 10
 
   3. Инвертировать цвета изображения:
-     ./image_processor input.bmp output.bmp -neg
+     ./ImageProcessor input.bmp output.bmp -neg
 
 Примечание:
   - Порядок применения фильтров соответствует порядку их указания в командной строке.
