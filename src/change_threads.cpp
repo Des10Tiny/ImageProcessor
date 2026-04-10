@@ -4,6 +4,17 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+#include <thread>
+
+int GetOptimalThreadCount() {
+    int hw_threads = static_cast<int>(std::thread::hardware_concurrency());
+
+    if (hw_threads == 0) {
+        hw_threads = 1;
+    }
+
+    return std::max(1, hw_threads - 1);
+}
 
 void ChangeThreads(int &argc, char **&argv, int &number_of_threads) {
     for (int i = 1; i + 1 < argc; ++i) {
@@ -12,8 +23,9 @@ void ChangeThreads(int &argc, char **&argv, int &number_of_threads) {
 
             number_of_threads = static_cast<int>(std::strtol(argv[i + 1], &end_ptr, System));
 
-            if (*end_ptr != '\0' || number_of_threads < 1 || number_of_threads > MaxThreads) {
-                throw ValidationException("Invalid thread value: " + std::string(argv[i + 1]));
+            if (*end_ptr != '\0' || number_of_threads < 1 || number_of_threads > MAX_THREADS) {
+                throw ValidationException("Invalid thread value: " + std::string(argv[i + 1]) +
+                                          "\nMax threads on your device: " + std::to_string(MAX_THREADS));
             }
 
             for (int j = i; j + 2 < argc; ++j) {

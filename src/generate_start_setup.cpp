@@ -58,8 +58,13 @@ void PrintHelp() {
 Parameters GenerateParameters(const int argc, char **argv) {
     if (argc <= 1) {
         PrintHelp();
+#ifdef _WIN32
+        std::cout << "\nНажмите Enter, чтобы закрыть окно..." << std::endl;
+        std::cin.get();
+#endif
         exit(0);
     }
+
     if (argc <= 3 || argv[3][0] != '-') {
         throw ValidationException("Invalid number of arguments");
     }

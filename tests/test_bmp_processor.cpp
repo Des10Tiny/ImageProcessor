@@ -1,5 +1,6 @@
 #include "bmp_processor.hpp"
 #include "app_runner.hpp"
+#include "change_threads.hpp"
 #include "gtest/gtest.h"
 
 #include <filesystem>
@@ -8,7 +9,7 @@
 #include <string>
 #include <vector>
 
-static const int NUM_OF_THREADS = 6;
+static const int NUM_OF_THREADS = GetOptimalThreadCount();
 
 // Tests basic execution with valid input and output files.
 TEST(BMPProcessorTest, BasicTest) {
@@ -137,4 +138,18 @@ TEST(BMPProcessorTest, MultipleFiltersWithSharpenTest) {
         "test", "images/lenna.bmp", "output_sharp_multiple.bmp", "-crop", "500", "500", "-sharp", "-neg"};
     EXPECT_EQ(RunApp(args), 0);
     EXPECT_TRUE(std::filesystem::exists("output_sharp_multiple.bmp"));
+}
+// Tests invalid threads number
+TEST(BMPProcessorTest, InvalidThreads) {
+    std::string max_thr = std::to_string(MAX_THREADS + 1);
+    std::vector<std::string> args = {
+        "test", "images/lenna.bmp", "output_sharp_multiple.bmp", "-threads", max_thr, "-crop", "500", "500"};
+    EXPECT_NE(RunApp(args), 0);
+}
+
+// Stress Test
+TEST(BMPProcessorTest, StressGaussianBlur) {
+    std::vector<std::string> args = {"test", "images/lenna.bmp", "output_stress_gaussian_blur.bmp", "-blur", "100"};
+    EXPECT_EQ(RunApp(args), 0);
+    EXPECT_TRUE(std::filesystem::exists("output_stress_gaussian_blur.bmp"));
 }

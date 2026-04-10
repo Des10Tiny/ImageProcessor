@@ -15,7 +15,7 @@ int RunApp(int argc, char **argv) {
                                                     {"-edge", 1}, {"-blur", 1}, {"-smooth", 1}};
 
     try {
-        int number_of_threads = 4;
+        int number_of_threads = GetOptimalThreadCount();
 
         ChangeThreads(argc, argv, number_of_threads);
         const Parameters param = GenerateParameters(argc, argv);
